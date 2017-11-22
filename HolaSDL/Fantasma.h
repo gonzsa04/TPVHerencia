@@ -1,0 +1,37 @@
+//practicando con SDL
+#pragma once
+#include "SDL.h"
+#include "SDL_image.h"
+#include "Personaje.h"
+#include "Texture.h"
+class Game;
+#include <iostream>
+#include <vector>
+using namespace std;
+
+struct Punto 
+{
+	int x, y;
+};
+
+//clase Fantasma que rige el comportamiento de los enemigos
+class Fantasma: public Personaje {
+private:
+	Texture* texture2 = nullptr;//puntero a su textura. La carga Game y luego se la pasa 
+	vector<Punto>posiblesDir = { { 0, 1 }, {0, -1}, {1, 0}, {-1, 0} };//vector de posibles direcciones, inicialmente todas
+	bool comible = false;//inicialmente el fantasma no es comible
+public:
+	Fantasma() :Personaje() {};
+   //constructora que inicializa todos los campos de la entidad vistos anteriormente
+	Fantasma(Game* game, int width, int height, int f, int c, int numT, int numF);
+	void render();//metodo que manda pintar al fantasma
+	void animate();//metodo que manda animar al fantasma
+	void update();//metodo que actualiza la posicion del fantasma
+	void morir();//metodo llamado al morir, devuelve al fantasma a posIni
+	void eliminaDir(int x, int y);//elimina la direccion contraria a la que lleva el fantasma
+	bool hayFantasma(int dX, int dY);//indica si hay fantasma o no en la siguiente casilla donde va a avanzar el fantasma
+	void posiblesDirecciones();//rellena un vector con todas las posibles direcciones que puede tomar el fantasma
+	void modifyComible(bool esComible);//cambia el fantasma a comible o no comible
+	bool getComible();//devuelve si el fantasma es comible
+};
+
