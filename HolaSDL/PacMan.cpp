@@ -1,6 +1,7 @@
 #include "PacMan.h"
 #include "Game.h"
 
+//constructora, llama a la constructora del padre y ademas hace lo que esta entre {}
 PacMan::PacMan(Game* game, int width, int height, int f, int c, int numT, int numF) :
 	Personaje(game, width, height, f, c, numT, numF) {
 	texture = game->getTexture(1);
@@ -36,7 +37,7 @@ void PacMan::update()
 		destRect.x += dirX;
 		destRect.y += dirY;
 	}
-	Personaje::update();
+	Personaje::update();//mira si se sale del mapa
 }
 
 //llamado cuando perdemos una vida

@@ -1,6 +1,7 @@
 #include "Fantasma.h"
 #include "Game.h"
 
+//constructora, llama a la constructora del padre y ademas hace lo que esta entre {}
 Fantasma::Fantasma(Game* game, int width, int height, int f, int c, int numT, int numF) :
 	Personaje(game, width, height, f, c, numT, numF) {
 	texture = game->getTexture(0);
@@ -8,7 +9,6 @@ Fantasma::Fantasma(Game* game, int width, int height, int f, int c, int numT, in
 	Punto dirIni = posiblesDir[rand() % 4];
 }
 
-//manda a la textura de fantasma que pinte un frame a elegir
 void Fantasma::render()
 {
 	if (!comible) Personaje::render();
@@ -33,7 +33,7 @@ void Fantasma::update()
 	destRect.x += dirX;
 	destRect.y += dirY;
 
-	Personaje::update();
+	Personaje::update();//miramos si se ha salido del mapa
 }
 
 //llamado cuando pacman le come o cuando pacman pierde una vida

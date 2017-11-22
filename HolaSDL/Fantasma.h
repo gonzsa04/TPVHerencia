@@ -15,15 +15,16 @@ struct Punto
 };
 
 //clase Fantasma que rige el comportamiento de los enemigos
+//hereda su comportamiento de Personaje, es un personaje
 class Fantasma: public Personaje {
 private:
 	Texture* texture2 = nullptr;//puntero a su textura. La carga Game y luego se la pasa 
 	vector<Punto>posiblesDir = { { 0, 1 }, {0, -1}, {1, 0}, {-1, 0} };//vector de posibles direcciones, inicialmente todas
 	bool comible = false;//inicialmente el fantasma no es comible
 public:
-	Fantasma() :Personaje() {};
+	Fantasma() :Personaje() {};//constructora que llama a la constructora por defecto de su padre
    //constructora que inicializa todos los campos de la entidad vistos anteriormente
-	Fantasma(Game* game, int width, int height, int f, int c, int numT, int numF);
+	Fantasma(Game* game, int width, int height, int f, int c, int numT, int numF);//constructora
 	void render();//metodo que manda pintar al fantasma
 	void animate();//metodo que manda animar al fantasma
 	void update();//metodo que actualiza la posicion del fantasma

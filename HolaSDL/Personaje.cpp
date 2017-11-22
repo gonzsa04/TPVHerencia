@@ -7,7 +7,7 @@ Personaje::Personaje()
 	destRect.w = destRect.h = destRect.x = destRect.y = dirX = dirY = fil = col = numTicks = numFrames = 0;
 }
 
-//constructora que establece todos los atributos de PacMan
+//constructora que establece todos los atributos de la entidad
 Personaje::Personaje(Game* game, int width, int height, int f, int c, int numT, int numF)
 {
 	this->game = game;
@@ -24,25 +24,25 @@ Personaje::Personaje(Game* game, int width, int height, int f, int c, int numT, 
 	dirYSig = 0;
 }
 
-//manda a la textura de pacman que pinte un frame a elegir
+//manda a la textura de la entidad que pinte un frame a elegir
 void Personaje::render()
 {
 	texture->renderFrame(renderer, destRect, fil, col);
 }
 
-//manda a la textura de pacman que se anime
+//manda a la textura de la entidad que se anime
 void Personaje::animate()
 {
 	texture->animation(renderer, destRect, angle, numTicks, numFrames);
 }
 
-//actualiza la posicion de pacman a traves de sus direcciones actual y siguiente
+//actualiza la posicion de la entidad
 void Personaje::update()
 {
 	toroide();//miramos si se sale del mapa
 }
 
-//controla cuando pacman se sale de los bordes del mapa
+//controla cuando la entidad se sale de los bordes del mapa
 void Personaje::toroide()
 {
 	if (destRect.x >= (game->getTabCols()) * game->getTam())destRect.x = 0;//si salimos por la derecha entramos por la izquierda
@@ -68,24 +68,24 @@ void Personaje::siguienteDir(int newDirX, int newDirY)
 
 void Personaje::Gira(double ang) { angle = ang; }
 
-//establece la posicion de pacman
+//establece la posicion de la entidad
 void Personaje::setPos(int posY, int posX)
 {
 	posIniX = destRect.x = posX;
 	posIniY = destRect.y = posY;
 }
 
-//devuelven posicion del pacman
+//devuelven posicion de la entidad
 int Personaje::getPosX() { return destRect.x; }
 
 int Personaje::getPosY() { return destRect.y; }
 
-//devuelven posicion inicial del pacman
+//devuelven posicion inicial de la entidad
 int Personaje::getPosIniX() { return posIniX; }
 
 int Personaje::getPosIniY() { return posIniY; }
 
-//devuelven direccion del pacman
+//devuelven direccion de la entidad
 int Personaje::getDirX() { return dirX; }
 
 int Personaje::getDirY() { return dirY; }

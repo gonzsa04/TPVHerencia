@@ -1,13 +1,13 @@
-﻿  Game.cpp
-c:\users\gonzalo\desktop\proyectossdlpacman\tpv\holasdl\game.cpp(19): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-c:\users\gonzalo\desktop\proyectossdlpacman\tpv\holasdl\game.cpp(207): warning C4018: '<': no coinciden signed/unsigned
-  Generando código...
-  Compilando...
+﻿  Personaje.cpp
+  PacMan.cpp
   Fantasma.cpp
   Generando código...
-  Omitiendo... (no se detectaron cambios relevantes)
+  Compilando...
   main.cpp
-  Personaje.cpp
-  PacMan.cpp
   GameMAP.cpp
-  HolaSDL.vcxproj -> C:\Users\Gonzalo\Desktop\ProyectosSDLPacman\TPV\bin\HolaSDLDebug.exe
+  Game.cpp
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(19): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(207): warning C4018: '<': no coinciden signed/unsigned
+  Generando código...
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\gamemap.cpp(25): warning C4715: 'GameMAP::getCell': no todas las rutas de acceso de control devuelven un valor
+  HolaSDL.vcxproj -> D:\Jorge\Desarrollo de Videojuegos-2\TPV\PacmanHerencia\TPVHerencia\bin\HolaSDLDebug.exe

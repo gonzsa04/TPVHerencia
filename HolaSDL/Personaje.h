@@ -7,7 +7,7 @@ class Game;
 #include <iostream>
 using namespace std;
 
-//clase PacMan que rige el comportamiento del jugador
+//clase Personaje que rige el comportamiento del jugador y los fantasmas
 class Personaje {
 protected:
 	int posIniX, posIniY;//posicion inicial
@@ -22,17 +22,17 @@ protected:
 	SDL_Rect destRect;//rectangulo destino donde se pintara pacman
 public:
 	Personaje();//constructora por defecto
-			 //constructora que inicializa todos los campos de la entidad vistos anteriormente
+	//constructora que inicializa todos los campos de la entidad vistos anteriormente
 	Personaje(Game* game, int width, int height, int f, int c, int numT, int numF);
-	void render();//metodo que manda pintar a pacman
+	void render();//metodo que manda pintar a la entidad
 	void Gira(double ang);
-	void animate();//metodo que manda animar a pacman
-	void update();//metodo que actualiza la posicion de pacman
-	void toroide();//controla cuando pacman se sale de los bordes del mapa
-	void morir();//metodo llamado al morir, resta una vida y devuelve a pacman a posIni
-	void siguienteDir(int newDirX, int newDirY);//establece la siguiente direccion de pacman
-	void setPos(int posY, int posX);//establece la posicion de pacman
-	int getPosX();//devuelven posicion y direccion de pacman
+	void animate();//metodo que manda animar a la entidad
+	void update();//metodo que actualiza la posicion de la entidad
+	void toroide();//controla cuando la entidad se sale de los bordes del mapa
+	void morir();//metodo llamado al morir, resta una vida y devuelve a la entidad a posIni
+	void siguienteDir(int newDirX, int newDirY);//establece la siguiente direccion de la entidad
+	void setPos(int posY, int posX);//establece la posicion de la entidad
+	int getPosX();//devuelven posicion y direccion de la entidad
 	int getPosY();
 	int getPosIniX();
 	int getPosIniY();
