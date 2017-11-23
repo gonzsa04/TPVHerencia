@@ -250,12 +250,12 @@ void Game::leeArchivo(string filename)
 	{
 		archivo >> fils >> cols;
 
-		pacman = PacMan(this, TAM, TAM, 6, 2, 12, 4);//creamos a pacman
+		pacman = PacMan(this, textures[1], TAM, TAM, 6, 2, 12, 4);//creamos a pacman
 		gameMap = new GameMAP(fils, cols, this);//creamos el tablero
-		fantasmas[0] = Fantasma(this, TAM, TAM, 0, 0, 1, 2);//creamos los fantasmas
-		fantasmas[1] = Fantasma(this, TAM, TAM, 1, 0, 1, 2);
-		fantasmas[2] = Fantasma(this, TAM, TAM, 2, 0, 1, 2);
-		fantasmas[3] = Fantasma(this, TAM, TAM, 3, 0, 1, 2);
+		fantasmas[0] = Fantasma(this, textures[0], textures[2], TAM, TAM, 0, 0, 1, 2);//creamos los fantasmas
+		fantasmas[1] = Fantasma(this, textures[0], textures[2], TAM, TAM, 1, 0, 1, 2);
+		fantasmas[2] = Fantasma(this, textures[0], textures[2], TAM, TAM, 2, 0, 1, 2);
+		fantasmas[3] = Fantasma(this, textures[0], textures[2], TAM, TAM, 3, 0, 1, 2);
 
 		for (int i = 0; i < fils; i++)
 		{

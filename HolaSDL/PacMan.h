@@ -15,7 +15,12 @@ private:
 	int vidas;//numero de vidas
 public:
 	PacMan() :Personaje() {};//se llama a la constructora por defecto de su padre
-	PacMan(Game* game, int width, int height, int f, int c, int numT, int numF);//constructora
+	//constructora, llama a la constructora del padre y ademas hace lo que esta entre {}
+	PacMan(Game* game, Texture* text, int width, int height, int f, int c, int numT, int numF) :
+		Personaje(game, width, height, f, c, numT, numF) {
+		texture = text;
+		vidas = 3;
+	}
 	void update();//actualiza su posicion
 	void morir();//metodo llamado al morir, resta una vida y devuelve a pacman a posIni
 	int getVidas();//devuelve el numero de vidas que le quedan a pacman

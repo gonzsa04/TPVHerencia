@@ -1,14 +1,6 @@
 #include "Fantasma.h"
 #include "Game.h"
 
-//constructora, llama a la constructora del padre y ademas hace lo que esta entre {}
-Fantasma::Fantasma(Game* game, int width, int height, int f, int c, int numT, int numF) :
-	Personaje(game, width, height, f, c, numT, numF) {
-	texture = game->getTexture(0);
-	texture2 = game->getTexture(2);
-	Punto dirIni = posiblesDir[rand() % 4];
-}
-
 void Fantasma::render()
 {
 	if (!comible) Personaje::render();

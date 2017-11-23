@@ -1,13 +1,4 @@
-﻿  Personaje.cpp
-  PacMan.cpp
-  Fantasma.cpp
-  Generando código...
-  Compilando...
-  main.cpp
+﻿  Omitiendo... (no se detectaron cambios relevantes)
   GameMAP.cpp
-  Game.cpp
-d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(19): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(207): warning C4018: '<': no coinciden signed/unsigned
-  Generando código...
-d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\gamemap.cpp(25): warning C4715: 'GameMAP::getCell': no todas las rutas de acceso de control devuelven un valor
+  Fantasma.cpp
   HolaSDL.vcxproj -> D:\Jorge\Desarrollo de Videojuegos-2\TPV\PacmanHerencia\TPVHerencia\bin\HolaSDLDebug.exe

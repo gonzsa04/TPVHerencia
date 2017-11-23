@@ -23,8 +23,13 @@ private:
 	bool comible = false;//inicialmente el fantasma no es comible
 public:
 	Fantasma() :Personaje() {};//constructora que llama a la constructora por defecto de su padre
-   //constructora que inicializa todos los campos de la entidad vistos anteriormente
-	Fantasma(Game* game, int width, int height, int f, int c, int numT, int numF);//constructora
+	//constructora, llama a la constructora del padre y ademas hace lo que esta entre {}
+	Fantasma(Game* game, Texture* text1, Texture* text2, int width, int height, int f, int c, int numT, int numF) :
+		Personaje(game, width, height, f, c, numT, numF) {
+		texture = text1;
+		texture2 = text2;
+		Punto dirIni = posiblesDir[rand() % 4];
+	}
 	void render();//metodo que manda pintar al fantasma
 	void animate();//metodo que manda animar al fantasma
 	void update();//metodo que actualiza la posicion del fantasma
