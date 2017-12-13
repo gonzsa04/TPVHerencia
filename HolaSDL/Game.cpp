@@ -16,7 +16,7 @@ Game::Game()
 	//si no hay error
 	else
 	{
-		srand(time(nullptr));
+		srand((int)time(nullptr));
 		for (int i = 0; i < 8; i++) { textures[i] = new Texture; }//array con todas las texturas del juego
 		textures[0]->load(renderer, "..//images/pacman-spritesheet.png", 8, 4);//texturas de tablero
 		textures[1]->load(renderer, "..//images/PacmanAnimation.png", 1, 4);//texturas de pacman
@@ -178,7 +178,7 @@ void Game::colisiones()
 void Game::render()
 {
 	SDL_RenderClear(renderer);//borra
-	gameMap->render(TAM);//le mandamos al tablero que se pinte a un tamaño
+	gameMap->render();//le mandamos al tablero que se pinte a un tamaño
 	pacman.animate();//pinta entidades
 	for (int i = 0; i < 4; i++) fantasmas[i].render();//pintamos los fantasmas
 	renderHud();
@@ -204,7 +204,7 @@ void Game::renderHud()
 	string sScore = std::to_string(score);
 	destRect.x += 4 * TAM;
 	//pintamos puntuacion
-	for (int i = 0; i < sScore.length(); i++)
+	for (int i = 0; i < (int)sScore.length(); i++)
 	{
 		destRect.x += 3*TAM/4;
 		if(sScore[i] == '0'){ textures[7]->renderFrame(renderer, destRect, 0, 1); }

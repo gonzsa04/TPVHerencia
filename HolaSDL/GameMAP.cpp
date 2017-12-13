@@ -4,23 +4,20 @@
 
 using namespace std;
 
-//constructora "de verdad"
-GameMAP::GameMAP(int fils, int cols, Game* game)
-{
+GameMAP::GameMAP(int fils, int cols, Game* g) : GameObject(g) {
 	//inicializa sus parametros
-	this->fils = fils;
-	this->cols = cols;
-	this->game = game;
+	this->fil = fils;
+	this->col = cols;
 	cells = new MapCell*[fils];//da tamaño al array de casillas
 	for (int i = 0; i < fils; i++)cells[i] = new MapCell[cols];
-	textures = game->getTexture(0);//coge el renderer y la textura de game
+	texture = game->getTexture(0);//coge el renderer y la textura de game
 	renderer = game->getRenderer();
-}
+};//constructora "de verdad" que inicializa los parametros del tablero
 
 //devuelve la casilla de la poscion dada
 MapCell GameMAP::getCell(int f, int c)
 {
-	if (f < fils && c < cols && f >= 0 && c >= 0)
+	if (f < fil && c < col && f >= 0 && c >= 0)
 		return cells[f][c];
 }
 
@@ -31,12 +28,13 @@ void GameMAP::setCell(int fils, int cols, MapCell tipoCasilla)
 }
 
 //pinta el mapa dado a un tamaño dado
-void GameMAP::render(int tamanyo)
+void GameMAP::render()
 {
+	int tamanyo = game->getTam();
 	//lee todas las casillas y pinta el sprite correspondiente de cada una
-	for (int i = 0; i < fils; i++)
+	for (int i = 0; i < fil; i++)
 	{
-		for (int j = 0; j < cols; j++)
+		for (int j = 0; j < col; j++)
 		{
 			if (cells[i][j] == vacio)
 			{
@@ -44,7 +42,7 @@ void GameMAP::render(int tamanyo)
 				destRect.x = j*tamanyo;
 				destRect.y = i*tamanyo;
 				destRect.w = destRect.h = tamanyo;
-				textures->renderFrame(renderer, destRect, 5, 3);
+				texture->renderFrame(renderer, destRect, 5, 3);
 			}
 			else if (cells[i][j] == muro)
 			{
@@ -52,7 +50,7 @@ void GameMAP::render(int tamanyo)
 				destRect.x = j*tamanyo;
 				destRect.y = i*tamanyo;
 				destRect.w = destRect.h = tamanyo;
-				textures->renderFrame(renderer, destRect, 5, 0);
+				texture->renderFrame(renderer, destRect, 5, 0);
 			}
 			else if (cells[i][j] == comida)
 			{
@@ -60,7 +58,7 @@ void GameMAP::render(int tamanyo)
 				destRect.x = j*tamanyo;
 				destRect.y = i*tamanyo;
 				destRect.w = destRect.h = tamanyo;
-				textures->renderFrame(renderer, destRect, 4, 2);
+				texture->renderFrame(renderer, destRect, 4, 2);
 			}
 			else if (cells[i][j] == vitamina)
 			{
@@ -68,17 +66,21 @@ void GameMAP::render(int tamanyo)
 				destRect.x = j*tamanyo;
 				destRect.y = i*tamanyo;
 				destRect.w = destRect.h = tamanyo;
-				textures->renderFrame(renderer, destRect, 4, 3);
+				texture->renderFrame(renderer, destRect, 4, 3);
 			}
 		}
 	}
 }
 
+void GameMAP::update(){}
+void GameMAP::loadFromFile() {}
+void GameMAP::saveToFile() {}
+
 //destructora del tablero
 GameMAP::~GameMAP()
 {
 	if (cells != nullptr) {
-		for (int i = 0; i < fils; i++)delete[] cells[i];
+		for (int i = 0; i < fil; i++)delete[] cells[i];
 		delete[] cells;
 	}
 }

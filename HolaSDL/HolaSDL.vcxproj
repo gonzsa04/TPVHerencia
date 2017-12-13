@@ -79,6 +79,7 @@
     <ClInclude Include="Fantasma.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameMAP.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="PacMan.h" />
     <ClInclude Include="Personaje.h" />
     <ClInclude Include="Texture.h" />

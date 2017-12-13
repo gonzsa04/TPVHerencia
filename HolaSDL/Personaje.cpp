@@ -1,16 +1,7 @@
 #include "Personaje.h"
 #include "Game.h"
 
-//constructora por defecto
-Personaje::Personaje()
-{
-	destRect.w = destRect.h = destRect.x = destRect.y = dirX = dirY = fil = col = numTicks = numFrames = 0;
-}
-
-//constructora que establece todos los atributos de la entidad
-Personaje::Personaje(Game* game, int width, int height, int f, int c, int numT, int numF)
-{
-	this->game = game;
+Personaje::Personaje(Game* g, int width, int height, int f, int c, int numT, int numF) : GameObject(g) {
 	renderer = game->getRenderer();
 	destRect.w = width;//tamaño de pacman
 	destRect.h = height;
@@ -22,7 +13,7 @@ Personaje::Personaje(Game* game, int width, int height, int f, int c, int numT, 
 	numFrames = numF;
 	dirXSig = 0;
 	dirYSig = 0;
-}
+};
 
 //manda a la textura de la entidad que pinte un frame a elegir
 void Personaje::render()
@@ -74,6 +65,9 @@ void Personaje::setPos(int posY, int posX)
 	posIniX = destRect.x = posX;
 	posIniY = destRect.y = posY;
 }
+
+void Personaje::loadFromFile() {}
+void Personaje::saveToFile() {}
 
 //devuelven posicion de la entidad
 int Personaje::getPosX() { return destRect.x; }
