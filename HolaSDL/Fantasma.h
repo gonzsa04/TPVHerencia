@@ -32,7 +32,7 @@ public:
 		texture2 = text2;
 		Punto dirIni = posiblesDir[rand() % 4];
 	}
-	void loadFromFile(ifstream& file);
+	virtual void loadFromFile(ifstream& file);
 	void render();//metodo que manda pintar al fantasma
 	void animate();//metodo que manda animar al fantasma
 	void update();//metodo que actualiza la posicion del fantasma

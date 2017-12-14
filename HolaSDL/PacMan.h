@@ -21,7 +21,7 @@ public:
 		texture = text;
 		vidas = 3;
 	}
-	void loadFromFile(ifstream& file);
+	virtual void loadFromFile(ifstream& file);
 	void update();//actualiza su posicion
 	void morir();//metodo llamado al morir, resta una vida y devuelve a pacman a posIni
 	int getVidas();//devuelve el numero de vidas que le quedan a pacman

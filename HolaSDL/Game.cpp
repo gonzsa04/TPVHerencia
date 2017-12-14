@@ -161,7 +161,7 @@ void Game::colisiones()
 	if (i < 4)
 	{
 		//si no son comibles se pierde una vida y tanto pacman como los fantasmas vuelven a su posicion inicial
-		if (!getFantasmas(i).getComible())
+		if (!static_cast<Fantasma*>(&getFantasmas(i))->getComible())
 		{
 			characters[numFantasmas].morir();
 			for (int i = 0; i < 4; i++)muereFantasma(i);
@@ -194,7 +194,7 @@ void Game::renderHud()
 	destRect.x = cols*TAM;
 	destRect.y = 0;
 	//pintamos las vidas
-	for (int i = 0; i < characters[numFantasmas].getVidas(); i++) {
+	for (int i = 0; i < static_cast<PacMan*>(&characters[numFantasmas])->getVidas(); i++) {
 		destRect.x += TAM;
 		textures[0]->renderFrame(renderer, destRect, 6, 2);
 	}
@@ -255,6 +255,7 @@ void Game::leeArchivo(string filename)
 		gameMap->loadFromFile(archivo);
 
 		archivo >> numFantasmas;
+		characters.resize(numFantasmas + 1);
 		for (int i = 0; i < numFantasmas; i++) 
 		{
 			characters[i] = Fantasma(this, textures[0], textures[2], TAM, TAM, i, 0, 1, 2);
@@ -274,7 +275,7 @@ int Game::getTabFils() { return fils; }
 
 int Game::getTabCols() { return cols; }
 
-Fantasma Game::getFantasmas(int i) { return characters[i]; }//devuelve el fantasma i
+Personaje Game::getFantasmas(int i) { return characters[i]; }//devuelve el fantasma i
 
 void Game::muereFantasma(int i) //mata al fantasma i
 {
@@ -284,7 +285,7 @@ void Game::muereFantasma(int i) //mata al fantasma i
 //establece todos los fantasmas a comibles o no comibles
 void Game::fantasmasComibles(bool sonComibles)
 {
-	for (int i = 0; i < numFantasmas; i++)characters[i].modifyComible(sonComibles);
+	for (int i = 0; i < numFantasmas; i++)static_cast<Fantasma*>(&characters[i])->modifyComible(sonComibles);
 	if (sonComibles) { temporizador = true; Temp = 0; }//si son comibles inicia el temporizador
 	else temporizador = false;//si dejan de serlo finaliza el temporizador
 }

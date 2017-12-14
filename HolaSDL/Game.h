@@ -51,7 +51,7 @@ public:
 	int getTabFils();//devuelve filas y columnas del tablero
 	int getTabCols();
 	void colisiones();
-	Fantasma getFantasmas(int i);//devuelve un fantasma
+	Personaje getFantasmas(int i);//devuelve un fantasma
 	void muereFantasma(int i);//manda al fantasma i morirse
 	void fantasmasComibles(bool sonComibles);//establece todos los fantasmas a comibles o no comibles
 	Personaje getPacman();//devuelve a pacman
