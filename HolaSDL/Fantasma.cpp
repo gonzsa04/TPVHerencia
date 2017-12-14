@@ -1,5 +1,16 @@
 #include "Fantasma.h"
 #include "Game.h"
+#include <fstream>
+
+void Fantasma::loadFromFile(ifstream& file) 
+{
+	int listo;
+	file >> listo;
+	if (listo == 0)smart = false;
+	else smart = true;
+	Personaje::loadFromFile(file);
+	if (smart)file >> edad;
+}
 
 void Fantasma::render()
 {

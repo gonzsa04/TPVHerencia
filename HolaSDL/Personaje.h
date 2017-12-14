@@ -28,7 +28,7 @@ public:
 	void morir();//metodo llamado al morir, resta una vida y devuelve a la entidad a posIni
 	void siguienteDir(int newDirX, int newDirY);//establece la siguiente direccion de la entidad
 	void setPos(int posY, int posX);//establece la posicion de la entidad
-	virtual void loadFromFile();
+	virtual void loadFromFile(ifstream& file);
 	virtual void saveToFile();
 	int getPosX();//devuelven posicion y direccion de la entidad
 	int getPosY();

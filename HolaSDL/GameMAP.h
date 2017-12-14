@@ -15,7 +15,7 @@ public:
 	void setCell(int fils, int cols, MapCell tipoCasilla);//cambia la casilla dada por el valor correspondiente
 	virtual void render();//pinta el tablero a un tamaño determinado
 	virtual void update();//metodo que actualiza la posicion de la entidad
-	virtual void loadFromFile();
+	virtual void loadFromFile(ifstream& file);
 	virtual void saveToFile();
 	~GameMAP();//destructora
 };

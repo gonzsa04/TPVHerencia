@@ -1,5 +1,16 @@
 #include "PacMan.h"
 #include "Game.h"
+#include <fstream>
+
+void PacMan::loadFromFile(ifstream& file)
+{
+	Personaje::loadFromFile(file);
+	file >> dirXSig >> dirYSig;
+	int aux;
+	file >> aux;
+	if (file.fail())file.clear();
+	else vidas = aux;
+}
 
 //actualiza la posicion de pacman a traves de sus direcciones actual y siguiente
 void PacMan::update()

@@ -15,7 +15,7 @@ public:
 	GameObject(Game* game) : game(game) {};
 	virtual void render() = 0;
 	virtual void update() = 0;
-	virtual void loadFromFile() = 0;
+	virtual void loadFromFile(ifstream& file) = 0;
 	virtual void saveToFile() = 0;
 };
 

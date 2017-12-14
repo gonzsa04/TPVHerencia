@@ -1,5 +1,6 @@
 #include "Personaje.h"
 #include "Game.h"
+#include <fstream>
 
 Personaje::Personaje(Game* g, int width, int height, int f, int c, int numT, int numF) : GameObject(g) {
 	renderer = game->getRenderer();
@@ -66,7 +67,16 @@ void Personaje::setPos(int posY, int posX)
 	posIniY = destRect.y = posY;
 }
 
-void Personaje::loadFromFile() {}
+void Personaje::loadFromFile(ifstream& file) 
+{
+	file >> destRect.y >> destRect.x >> posIniY
+		>> posIniX >> dirY >> dirX;
+	destRect.x *= game->getTam();
+	destRect.y *= game->getTam();
+	posIniX *= game->getTam();
+	posIniY *= game->getTam();
+}
+
 void Personaje::saveToFile() {}
 
 //devuelven posicion de la entidad

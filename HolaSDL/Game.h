@@ -33,8 +33,8 @@ private:
 	int Temp = 0;//temporizador
 	bool temporizador = false;//temporizador, indica si podemos comer fantasmas
 	GameMAP* gameMap;//tablero
-	PacMan pacman;//jugador
-	Fantasma fantasmas[4];//array con todos los fantasmas
+	int numFantasmas = 0;
+	vector<Personaje>characters;
 	Texture* textures[8];//punteros a textura que contiene todos los sprites del juego
 public:
 	Game();//carga la ventana y el tablero del juego
@@ -54,7 +54,7 @@ public:
 	Fantasma getFantasmas(int i);//devuelve un fantasma
 	void muereFantasma(int i);//manda al fantasma i morirse
 	void fantasmasComibles(bool sonComibles);//establece todos los fantasmas a comibles o no comibles
-	PacMan getPacman();//devuelve a pacman
+	Personaje getPacman();//devuelve a pacman
 	void renderHud();//pinta el numero de vidas
 	void addScore(int ascore);
 	void GameOver();//termina el juego

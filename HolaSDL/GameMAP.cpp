@@ -1,6 +1,7 @@
 #include <fstream>
 #include "GameMAP.h"
 #include "Game.h"
+#include <fstream>
 
 using namespace std;
 
@@ -73,7 +74,18 @@ void GameMAP::render()
 }
 
 void GameMAP::update(){}
-void GameMAP::loadFromFile() {}
+void GameMAP::loadFromFile(ifstream& file)
+{
+	int tipoCasilla;
+	for(int i=0;i<fil;i++)
+		for (int j = 0; j < col; j++) 
+		{
+			file >> tipoCasilla;
+			setCell(j, i, (MapCell)tipoCasilla);
+			if (getCell(i, j) == comida || getCell(i, j) == vitamina) game->setComida(1);
+		}
+}
+
 void GameMAP::saveToFile() {}
 
 //destructora del tablero

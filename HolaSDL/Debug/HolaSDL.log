@@ -1,2 +1,17 @@
 ﻿  Game.cpp
-  HolaSDL.vcxproj -> C:\Users\guillermo\Desktop\TPVHerencia-master\bin\HolaSDLDebug.exe
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(149): warning C4018: '<': no coinciden signed/unsigned
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(197): error C2039: 'getVidas': no es un miembro de 'Personaje'
+  d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\personaje.h(9): note: vea la declaración de 'Personaje'
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(277): error C2440: 'return': no se puede realizar la conversión de 'Personaje' a 'Fantasma'
+  d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(277): note: Ningún constructor ha podido aceptar el tipo de origen o bien la resolución de sobrecarga del constructor era ambigua
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(287): error C2039: 'modifyComible': no es un miembro de 'Personaje'
+  d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\personaje.h(9): note: vea la declaración de 'Personaje'
+  Generando código...
+  Compilando...
+  Fantasma.cpp
+  Generando código...
+  Omitiendo... (no se detectaron cambios relevantes)
+  main.cpp
+  Personaje.cpp
+  PacMan.cpp
+  GameMAP.cpp
