@@ -17,6 +17,6 @@ public:
 	virtual void render() = 0;//render, update, loadFromFile y saveToFile
 	virtual void update() = 0;//son metodos que tendran todas las entidades en comun
 	virtual void loadFromFile(ifstream& file) = 0;//pero por ahora los dejamos vacios
-	virtual void saveToFile() = 0;//para ser definidos despues
+	virtual void saveToFile(ofstream& file) = 0;//para ser definidos despues
 };
 

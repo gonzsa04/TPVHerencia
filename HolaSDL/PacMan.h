@@ -22,7 +22,7 @@ public:
 		vidas = 3;
 	}
 	virtual void loadFromFile(ifstream& file);
-	virtual void saveToFile();
+	virtual void saveToFile(ofstream& file);
 	virtual void update();//actualiza su posicion
 	virtual void morir();//metodo llamado al morir, resta una vida y devuelve a pacman a posIni
 	int getVidas();//devuelve el numero de vidas que le quedan a pacman

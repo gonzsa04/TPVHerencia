@@ -30,7 +30,7 @@ public:
 	void siguienteDir(int newDirX, int newDirY);//establece la siguiente direccion de la entidad
 	void setPos(int posY, int posX);//establece la posicion de la entidad
 	virtual void loadFromFile(ifstream& file);//obtiene informacion sobre una entidad de un fichero
-	virtual void saveToFile();//guarda informacion de una entidad en un fichero
+	virtual void saveToFile(ofstream& file);//guarda informacion de una entidad en un fichero
 	int getPosX();//devuelven posicion y direccion de la entidad
 	int getPosY();
 	int getPosIniX();

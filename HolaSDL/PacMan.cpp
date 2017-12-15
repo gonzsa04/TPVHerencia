@@ -14,7 +14,13 @@ void PacMan::loadFromFile(ifstream& file)
 }
 
 //guarda informacion sobre pacman en un fichero
-void PacMan::saveToFile(){}
+void PacMan::saveToFile(ofstream& file)
+{
+	Personaje::saveToFile(file);//obtiene la informacion de personaje
+	file << " " << dirXSig << " " << dirYSig;//obtiene la informacion de pacman
+	int aux;
+	file << " " << vidas;
+}
 
 //actualiza la posicion de pacman a traves de sus direcciones actual y siguiente
 void PacMan::update()

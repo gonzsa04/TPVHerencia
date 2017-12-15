@@ -17,6 +17,6 @@ public:
 	virtual void render();//pinta el tablero a un tamaño determinado
 	virtual void update();//metodo que actualiza la posicion de la entidad
 	virtual void loadFromFile(ifstream& file);
-	virtual void saveToFile();
+	virtual void saveToFile(ofstream& file);
 	~GameMAP();//destructora
 };

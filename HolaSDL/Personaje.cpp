@@ -80,7 +80,11 @@ void Personaje::loadFromFile(ifstream& file)
 }
 
 //guarda informacion de un personaje en un fichero
-void Personaje::saveToFile() {}
+void Personaje::saveToFile(ofstream& file) 
+{
+	file << destRect.y/game->getTam() << " " << destRect.x/game->getTam() << " " << posIniY/game->getTam()
+		<< " " << posIniX/game->getTam() << " " << dirY << " " << dirX;
+}
 
 //devuelven posicion de la entidad
 int Personaje::getPosX() { return destRect.x; }

@@ -265,7 +265,7 @@ void Game::leeArchivo(string filename)
 		}
 
 		characters[numFantasmas] = new PacMan(this, textures[1], TAM, TAM, 6, 2, 12, 4);//creamos a pacman
-		characters[numFantasmas]->loadFromFile(archivo);//lo cargamos de fivhero
+		characters[numFantasmas]->loadFromFile(archivo);//lo cargamos de fichero
 
 		/*archivo >> score;
 		archivo >> nivel;*/
@@ -305,21 +305,15 @@ void Game::guardarPartida()
 	ofstream archivo;
 	archivo.open("./Levels/NivelGuardado");
 	archivo << fils << " " << cols << endl;
+	gameMap->saveToFile(archivo);
 
-	for (int i = 0; i < fils; i++) 
-	{
-		for (int j = 0; j < cols; j++) 
-		{
-			for (int i = 0; i < characters.size(); i++)
-				if (characters[i]->getPosIniX() == j*TAM && characters[0]->getPosIniY() == i*TAM)archivo << 5 + i;
-			else archivo << (int)gameMap->getCell(i, j);
-			if (j < cols - 1)archivo << " ";
-		}
+	for (int i = 0; i < characters.size(); i++){
+		characters[numFantasmas]->saveToFile(archivo);//lo cargamos de fichero
 		archivo << endl;
-	}
-	archivo << score;
+		}
+	/*archivo << score;
 	archivo << endl;
-	archivo << nivel;
+	archivo << nivel;*/
 	archivo.close();
 }
 

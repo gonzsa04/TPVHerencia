@@ -34,7 +34,7 @@ public:
 		Punto dirIni = posiblesDir[rand() % 4];
 	}
 	virtual void loadFromFile(ifstream& file);
-	virtual void saveToFile();
+	virtual void saveToFile(ofstream& file);
 	virtual void render();//metodo que manda pintar al fantasma
 	virtual void animate();//metodo que manda animar al fantasma
 	virtual void update();//metodo que actualiza la posicion del fantasma
