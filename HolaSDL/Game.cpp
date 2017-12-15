@@ -334,8 +334,9 @@ Game::~Game()
 {
 	delete(gameMap);
 	if (textures != nullptr) {
-		for (int i = 0; i < 7; i++)delete[] textures[i];
+		for (int i = 0; i < numTextures; i++)delete[] textures[i];
 	}
+	for (int i = 0; i < characters.size(); i++)delete[] characters[i];
 
 	SDL_DestroyRenderer(renderer);//destruimos el renderer
 	SDL_DestroyWindow(window);//destruimos la ventana
