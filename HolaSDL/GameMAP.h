@@ -6,6 +6,7 @@ class Game;
 enum MapCell { vacio, muro, comida, vitamina };
 
 //clase que representa el mapa o tablero del juego
+//hereda de GameObject->el mapa ES una entidad
 class GameMAP: public GameObject {
 private:
 	MapCell** cells;//array bidimensional de casillas

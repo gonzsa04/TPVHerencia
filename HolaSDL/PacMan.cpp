@@ -2,15 +2,19 @@
 #include "Game.h"
 #include <fstream>
 
+//obtiene informacion sobre pacman de un fichero
 void PacMan::loadFromFile(ifstream& file)
 {
-	Personaje::loadFromFile(file);
-	file >> dirXSig >> dirYSig;
+	Personaje::loadFromFile(file);//obtiene la informacion de personaje
+	file >> dirXSig >> dirYSig;//obtiene la informacion de pacman
 	int aux;
 	file >> aux;
 	if (file.fail())file.clear();
 	else vidas = aux;
 }
+
+//guarda informacion sobre pacman en un fichero
+void PacMan::saveToFile(){}
 
 //actualiza la posicion de pacman a traves de sus direcciones actual y siguiente
 void PacMan::update()

@@ -73,11 +73,14 @@ void GameMAP::render()
 	}
 }
 
+//su update estara vacio
 void GameMAP::update(){}
+
+//obtiene informacion sobre el mapa de un fichero
 void GameMAP::loadFromFile(ifstream& file)
 {
 	int tipoCasilla;
-	for(int i=0;i<fil;i++)
+	for(int i = 0; i < fil; i++)
 		for (int j = 0; j < col; j++) 
 		{
 			file >> tipoCasilla;
@@ -86,6 +89,7 @@ void GameMAP::loadFromFile(ifstream& file)
 		}
 }
 
+//guarda informacion sobre el mapa en un fichero
 void GameMAP::saveToFile() {}
 
 //destructora del tablero

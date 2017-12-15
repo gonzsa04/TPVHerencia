@@ -9,7 +9,7 @@ class Game;
 using namespace std;
 
 //clase PacMan que rige el comportamiento del jugador
-//hereda sus comportamientos de Personaje, es un personaje
+//hereda sus comportamientos de Personaje-> ES un personaje
 class PacMan: public Personaje {
 private:
 	int vidas;//numero de vidas
@@ -22,7 +22,8 @@ public:
 		vidas = 3;
 	}
 	virtual void loadFromFile(ifstream& file);
-	void update();//actualiza su posicion
-	void morir();//metodo llamado al morir, resta una vida y devuelve a pacman a posIni
+	virtual void saveToFile();
+	virtual void update();//actualiza su posicion
+	virtual void morir();//metodo llamado al morir, resta una vida y devuelve a pacman a posIni
 	int getVidas();//devuelve el numero de vidas que le quedan a pacman
 };

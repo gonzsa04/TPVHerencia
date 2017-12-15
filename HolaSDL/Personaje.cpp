@@ -2,11 +2,12 @@
 #include "Game.h"
 #include <fstream>
 
+//constructor de la entidad
 Personaje::Personaje(Game* g, int width, int height, int f, int c, int numT, int numF) : GameObject(g) {
-	renderer = game->getRenderer();
-	destRect.w = width;//tamaño de pacman
+	renderer = game->getRenderer();//game esta definido por la constructora de GameObject
+	destRect.w = width;//tamaño
 	destRect.h = height;
-	dirX = 0;
+	dirX = 0;//direccion
 	dirY = 0;
 	fil = f;
 	col = c;
@@ -43,7 +44,7 @@ void Personaje::toroide()
 	else if (destRect.y < 0)destRect.y = game->getTabFils() * game->getTam() - game->getTam();//y viceversa
 }
 
-//llamado cuando perdemos una vida
+//llamado cuando un personaje muere
 void Personaje::morir()
 {
 		dirX = dirY = dirXSig = dirYSig = 0;
@@ -67,16 +68,18 @@ void Personaje::setPos(int posY, int posX)
 	posIniY = destRect.y = posY;
 }
 
+//obtiene informacion sobre la entidad de un fichero
 void Personaje::loadFromFile(ifstream& file) 
 {
 	file >> destRect.y >> destRect.x >> posIniY
 		>> posIniX >> dirY >> dirX;
-	destRect.x *= game->getTam();
+	destRect.x *= game->getTam();//direccion y posicion
 	destRect.y *= game->getTam();
 	posIniX *= game->getTam();
 	posIniY *= game->getTam();
 }
 
+//guarda informacion de un personaje en un fichero
 void Personaje::saveToFile() {}
 
 //devuelven posicion de la entidad

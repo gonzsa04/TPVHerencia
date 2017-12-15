@@ -94,36 +94,40 @@ void Game::menu()
 //bucle principal
 void Game::run(int menu) 
 {
-	int startTime, frameTime;
 	while (!exit && !win && !gameOver && menu == 3)
 	{
-		startTime = SDL_GetTicks();
-
 		handleEvents();//miramos los eventos que ocurran en pantalla
 		colisiones();//controlamos colisiones entre pacman y fantasmas
 		update();//mandamos a las entidades que actualicen su posicion
 		render();//mandamos a las entidades que se pinten
-
-		if (numComida == 0)
-			win = true;//si nos comemos la comida ganamos
-
-					   //temporiza el tiempo que puedes comerte a los fantasmas
-		if (temporizador)Temp++;
-		if (Temp >= 50) { Temp = 0; fantasmasComibles(false); }
-
-		//framerate
-		frameTime = SDL_GetTicks() - startTime;
-		if (frameTime < 120)
-			SDL_Delay(180 - frameTime);
-
-		if (win && nivel < 2)
-		{
-			nivel++;
-			leeArchivo("level0" + std::to_string(nivel) + ".pac");
-			win = false;
-		}
-		if (event.type == SDL_QUIT)exit = true;
+		auxiliares();
 	}
+}
+
+//quita peso de encima a run(), y lleva a cabo labores como gestionar
+//el framerate y controlar cuando se pasa de nivel
+void Game::auxiliares() 
+{
+	startTime = SDL_GetTicks();
+	if (numComida == 0)
+		win = true;//si nos comemos la comida ganamos
+
+				   //temporiza el tiempo que puedes comerte a los fantasmas
+	if (temporizador)Temp++;
+	if (Temp >= 50) { Temp = 0; fantasmasComibles(false); }
+
+	//framerate
+	frameTime = SDL_GetTicks() - startTime;
+	if (frameTime < 120)
+		SDL_Delay(180 - frameTime);
+
+	if (win && nivel < numNiveles)
+	{
+		nivel++;
+		leeArchivo("level0" + std::to_string(nivel) + ".pac");
+		win = false;
+	}
+	if (event.type == SDL_QUIT)exit = true;
 }
 
 //mira los eventos que ocurran en el juego
@@ -134,10 +138,10 @@ void Game::handleEvents()
 	if (event.type == SDL_QUIT)exit = true;
 	else if (event.type == SDL_KEYDOWN)
 	{//dependiendo de la tecla pulsada establecemos la siguiente direccion de pacman
-		if (event.key.keysym.sym == SDLK_LEFT) characters[numFantasmas].siguienteDir(-TAM, 0);
-		else if (event.key.keysym.sym == SDLK_RIGHT) characters[numFantasmas].siguienteDir(TAM, 0);
-		else if (event.key.keysym.sym == SDLK_UP) characters[numFantasmas].siguienteDir(0, -TAM);
-		else if (event.key.keysym.sym == SDLK_DOWN) characters[numFantasmas].siguienteDir(0, TAM);
+		if (event.key.keysym.sym == SDLK_LEFT) characters[numFantasmas]->siguienteDir(-TAM, 0);
+		else if (event.key.keysym.sym == SDLK_RIGHT) characters[numFantasmas]->siguienteDir(TAM, 0);
+		else if (event.key.keysym.sym == SDLK_UP) characters[numFantasmas]->siguienteDir(0, -TAM);
+		else if (event.key.keysym.sym == SDLK_DOWN) characters[numFantasmas]->siguienteDir(0, TAM);
 		else if (event.key.keysym.sym == SDLK_g) guardarPartida();//si pulsas g guardas partida
 		else if (event.key.keysym.sym == SDLK_c) cargarPartida();//si pulsas c cargas partida
 	}
@@ -146,30 +150,29 @@ void Game::handleEvents()
 //manda a cada una de las entidades del juego que actualicen su posicion
 void Game::update()
 {
-	for (int i = 0; i < characters.size(); i++)characters[i].update();
+	for (int i = 0; i < characters.size(); i++)characters[i]->update();
 }
 
 void Game::colisiones()
 {	
 	int i = 0;
 	//colisiona con el si sus posiciones son iguales o si su siguiente posicion es igual que la del fantasma y la siguiente posicion del fantasma es la misma que la suya
-	while (i < 4 && (characters[numFantasmas].getPosX() != getFantasmas(i).getPosX() || characters[numFantasmas].getPosY() != getFantasmas(i).getPosY()) &&
-		(characters[numFantasmas].getPosX() + characters[numFantasmas].getDirX() != getFantasmas(i).getPosX() || characters[numFantasmas].getPosY() + 
-			characters[numFantasmas].getDirY() != getFantasmas(i).getPosY()))
+	while (i < numFantasmas && (characters[numFantasmas]->getPosX() != characters[i]->getPosX() || characters[numFantasmas]->getPosY() != characters[i]->getPosY()) &&
+		(characters[numFantasmas]->getPosX() + characters[numFantasmas]->getDirX() != characters[i]->getPosX() || characters[numFantasmas]->getPosY() +
+			characters[numFantasmas]->getDirY() != characters[i]->getPosY()))
 		i++;
 	//si hay colision 
-	if (i < 4)
+	if (i < numFantasmas)
 	{
 		//si no son comibles se pierde una vida y tanto pacman como los fantasmas vuelven a su posicion inicial
-		if (!static_cast<Fantasma*>(&getFantasmas(i))->getComible())
+		if (!static_cast<Fantasma*>(getFantasmas(i))->getComible())
 		{
-			characters[numFantasmas].morir();
-			for (int i = 0; i < 4; i++)muereFantasma(i);
+			for (int i = 0; i < characters.size(); i++)characters[i]->morir();
 		}
 		//si son comibles te comes a ese fantasma y sumas 100 puntos
 		else 
 		{
-			muereFantasma(i);
+			characters[i]->morir();
 			addScore(100);
 		}
 	}
@@ -180,9 +183,9 @@ void Game::render()
 {
 	SDL_RenderClear(renderer);//borra
 	gameMap->render();//le mandamos al tablero que se pinte a un tamaño
-	characters[numFantasmas].animate();//pinta entidades
-	for (int i = 0; i < numFantasmas; i++) characters[i].render();//pintamos los fantasmas
-	renderHud();
+	characters[numFantasmas]->animate();//pinta entidades
+	for (int i = 0; i < numFantasmas; i++) characters[i]->render();//pintamos los fantasmas
+	renderHud();//pinta el HUD
 	SDL_RenderPresent(renderer);//representa (pinta todo)
 }
 
@@ -194,7 +197,7 @@ void Game::renderHud()
 	destRect.x = cols*TAM;
 	destRect.y = 0;
 	//pintamos las vidas
-	for (int i = 0; i < static_cast<PacMan*>(&characters[numFantasmas])->getVidas(); i++) {
+	for (int i = 0; i < static_cast<PacMan*>(characters[numFantasmas])->getVidas(); i++) {
 		destRect.x += TAM;
 		textures[0]->renderFrame(renderer, destRect, 6, 2);
 	}
@@ -240,7 +243,6 @@ void Game::setCell(int fils, int cols, MapCell tipoCasilla)
 }
 
 //lee de archivo un mapa y modifica el array de casillas para que sea igual
-//llamado desde render
 void Game::leeArchivo(string filename)
 {
 	ifstream archivo;
@@ -252,18 +254,18 @@ void Game::leeArchivo(string filename)
 		archivo >> fils >> cols;
 
 		gameMap = new GameMAP(fils, cols, this);//creamos el tablero
-		gameMap->loadFromFile(archivo);
+		gameMap->loadFromFile(archivo);//cargamos el tablero con lo que hay en el fichero
 
-		archivo >> numFantasmas;
+		archivo >> numFantasmas;//leemos numero de fantasmas
 		characters.resize(numFantasmas + 1);
 		for (int i = 0; i < numFantasmas; i++) 
 		{
-			characters[i] = Fantasma(this, textures[0], textures[2], TAM, TAM, i, 0, 1, 2);
-			characters[i].loadFromFile(archivo);
+			characters[i] = new Fantasma(this, textures[0], textures[2], TAM, TAM, i, 0, 1, 2);
+			characters[i]->loadFromFile(archivo);//metemos a los fantasmas en el cjto. de personajes y los cargamos de fichero
 		}
 
-		characters[numFantasmas] = PacMan(this, textures[1], TAM, TAM, 6, 2, 12, 4);//creamos a pacman
-		characters[numFantasmas].loadFromFile(archivo);
+		characters[numFantasmas] = new PacMan(this, textures[1], TAM, TAM, 6, 2, 12, 4);//creamos a pacman
+		characters[numFantasmas]->loadFromFile(archivo);//lo cargamos de fivhero
 
 		/*archivo >> score;
 		archivo >> nivel;*/
@@ -275,29 +277,21 @@ int Game::getTabFils() { return fils; }
 
 int Game::getTabCols() { return cols; }
 
-Personaje Game::getFantasmas(int i) { return characters[i]; }//devuelve el fantasma i
-
-void Game::muereFantasma(int i) //mata al fantasma i
-{
-	characters[i].morir();
-}
+Personaje* Game::getFantasmas(int i) { return characters[i]; }//devuelve el fantasma i
 
 //establece todos los fantasmas a comibles o no comibles
 void Game::fantasmasComibles(bool sonComibles)
 {
-	for (int i = 0; i < numFantasmas; i++)static_cast<Fantasma*>(&characters[i])->modifyComible(sonComibles);
+	for (int i = 0; i < numFantasmas; i++)static_cast<Fantasma*>(characters[i])->modifyComible(sonComibles);
 	if (sonComibles) { temporizador = true; Temp = 0; }//si son comibles inicia el temporizador
 	else temporizador = false;//si dejan de serlo finaliza el temporizador
 }
 
-Personaje Game::getPacman() { return characters[numFantasmas]; }
+Personaje* Game::getPacman() { return characters[numFantasmas]; }
 
 int Game::getTam() { return TAM; }
 
-void Game::GameOver()
-{
-	gameOver = true;
-}
+void Game::GameOver(){ gameOver = true; }
 
 //añade puntos, llamado al comer comida vitaminas o fantasmas
 void Game::addScore(int ascore)
@@ -316,8 +310,8 @@ void Game::guardarPartida()
 	{
 		for (int j = 0; j < cols; j++) 
 		{
-			for (int i = 0; i < numFantasmas + 1; i++)
-				if (characters[i].getPosIniX() == j*TAM && characters[0].getPosIniY() == i*TAM)archivo << 5 + i;
+			for (int i = 0; i < characters.size(); i++)
+				if (characters[i]->getPosIniX() == j*TAM && characters[0]->getPosIniY() == i*TAM)archivo << 5 + i;
 			else archivo << (int)gameMap->getCell(i, j);
 			if (j < cols - 1)archivo << " ";
 		}

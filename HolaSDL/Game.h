@@ -7,10 +7,6 @@
 #include <iostream>
 using namespace std;
 
-struct Par
-{
-	int x, y;
-};
 
 //clase Game que controla todo el juego
 class Game
@@ -30,16 +26,19 @@ private:
 	int numComida = 0, score = 0;//numero de comida del mapa
 	int fils, cols;//filas y columnas del tablero
 	int nivel = 1;//nivel actual
+	int numNiveles = 2;//numero de niveles del juego
+	int startTime, frameTime;
 	int Temp = 0;//temporizador
 	bool temporizador = false;//temporizador, indica si podemos comer fantasmas
 	GameMAP* gameMap;//tablero
-	int numFantasmas = 0;
-	vector<Personaje>characters;
+	int numFantasmas = 0;//numero de fantasmas en el juego
+	vector<Personaje*>characters;//cjto de personajes del juego
 	Texture* textures[8];//punteros a textura que contiene todos los sprites del juego
 public:
 	Game();//carga la ventana y el tablero del juego
 	void menu();//menu principal del juego
 	void run(int menu);//bucle ppal., dentro de el se ejecutan los siguientes metodos
+	void auxiliares();
 	void render();//manda a cada una de las entidades que se pinten
 	void update();//manda a cada una de las entidades que actualicen su posicion
 	void handleEvents();//mira los eventos que ocurren en pantalla
@@ -51,10 +50,9 @@ public:
 	int getTabFils();//devuelve filas y columnas del tablero
 	int getTabCols();
 	void colisiones();
-	Personaje getFantasmas(int i);//devuelve un fantasma
-	void muereFantasma(int i);//manda al fantasma i morirse
+	Personaje* getFantasmas(int i);//devuelve un fantasma
 	void fantasmasComibles(bool sonComibles);//establece todos los fantasmas a comibles o no comibles
-	Personaje getPacman();//devuelve a pacman
+	Personaje* getPacman();//devuelve a pacman
 	void renderHud();//pinta el numero de vidas
 	void addScore(int ascore);
 	void GameOver();//termina el juego

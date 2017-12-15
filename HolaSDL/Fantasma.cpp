@@ -2,16 +2,21 @@
 #include "Game.h"
 #include <fstream>
 
+//obtiene informacion sobre el fantasma de un fichero
 void Fantasma::loadFromFile(ifstream& file) 
 {
-	int listo;
+	int listo;//informacion de fantasma
 	file >> listo;
 	if (listo == 0)smart = false;
 	else smart = true;
-	Personaje::loadFromFile(file);
+	Personaje::loadFromFile(file);//informacion de personaje
 	if (smart)file >> edad;
 }
 
+//guarda informacion sobre el fantasma en un fichero
+void Fantasma::saveToFile(){}
+
+//manda pintarse al fantasma
 void Fantasma::render()
 {
 	if (!comible) Personaje::render();
@@ -60,8 +65,8 @@ void Fantasma::eliminaDir(int x, int y)
 bool Fantasma::hayFantasma(int dX, int dY) 
 {
 	int i = 0;
-	while (i < 4 && (static_cast<Fantasma*>(&game->getFantasmas(i))->destRect.x != destRect.x + dX || 
-		static_cast<Fantasma*>(&game->getFantasmas(i))->destRect.y != destRect.y + dY)) i++;
+	while (i < 4 && (static_cast<Fantasma*>(game->getFantasmas(i))->destRect.x != destRect.x + dX || 
+		static_cast<Fantasma*>(game->getFantasmas(i))->destRect.y != destRect.y + dY)) i++;
 	return (i < 4);
 }
 

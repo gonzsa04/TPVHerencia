@@ -1,9 +1,15 @@
-﻿  Fantasma.cpp
+﻿  Game.cpp
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(151): warning C4018: '<': no coinciden signed/unsigned
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(168): warning C4018: '<': no coinciden signed/unsigned
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(247): warning C4101: 'character': variable local sin referencia
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(314): warning C4018: '<': no coinciden signed/unsigned
+  Generando código...
+  Compilando...
+  main.cpp
+  PacMan.cpp
+  Fantasma.cpp
   Generando código...
   Omitiendo... (no se detectaron cambios relevantes)
-  main.cpp
   Personaje.cpp
-  PacMan.cpp
   GameMAP.cpp
-  Game.cpp
   HolaSDL.vcxproj -> D:\Jorge\Desarrollo de Videojuegos-2\TPV\PacmanHerencia\TPVHerencia\bin\HolaSDLDebug.exe
