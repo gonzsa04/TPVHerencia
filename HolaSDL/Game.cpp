@@ -37,9 +37,8 @@ MapCell Game::nextCell(int posX, int posY, int dirX, int dirY)
 }
 
 //menu principal del juego
-void Game::menu()
+void Game::Menu()
 {
-	int menu = 1;
 	//mientras no se haya pulsado salir
 	while (!exit)
 	{
@@ -59,7 +58,12 @@ void Game::menu()
 		{
 			//si estamos sobre la opcion salir representamos en pantalla con una flecha
 			textures[6]->render(renderer);//si pulsamos espacio salimos
-			if (event.key.keysym.sym == SDLK_SPACE)exit = true;
+			if (event.key.keysym.sym == SDLK_SPACE)
+			{
+				loadState = true;
+				code = 0;
+				LoadState();
+			}
 		}
 		SDL_RenderPresent(renderer);//representa (pinta todo)
 		SDL_PollEvent(&event);//miramos los eventos
@@ -127,23 +131,27 @@ void Game::auxiliares()
 		leeArchivo("level0" + std::to_string(nivel) + ".pac");
 		win = false;
 	}
+	if (saveState)SaveState();
+	else if (loadState)LoadState();
+
 	if (event.type == SDL_QUIT)exit = true;
 }
 
 //mira los eventos que ocurran en el juego
 void Game::handleEvents()
 {
-	SDL_PollEvent(&event);//si se ha pulsado 
-						  //salir ponemos el bool a true para salir del bucle ppal.
-	if (event.type == SDL_QUIT)exit = true;
-	else if (event.type == SDL_KEYDOWN)
-	{//dependiendo de la tecla pulsada establecemos la siguiente direccion de pacman
-		if (event.key.keysym.sym == SDLK_LEFT) characters[numFantasmas]->siguienteDir(-TAM, 0);
-		else if (event.key.keysym.sym == SDLK_RIGHT) characters[numFantasmas]->siguienteDir(TAM, 0);
-		else if (event.key.keysym.sym == SDLK_UP) characters[numFantasmas]->siguienteDir(0, -TAM);
-		else if (event.key.keysym.sym == SDLK_DOWN) characters[numFantasmas]->siguienteDir(0, TAM);
-		else if (event.key.keysym.sym == SDLK_g) guardarPartida();//si pulsas g guardas partida
-		else if (event.key.keysym.sym == SDLK_c) cargarPartida();//si pulsas c cargas partida
+	while (SDL_PollEvent(&event) && !exit) {
+		//salir ponemos el bool a true para salir del bucle ppal.
+		if (event.type == SDL_QUIT)exit = true;
+		else if (event.type == SDL_KEYDOWN)
+		{//dependiendo de la tecla pulsada establecemos la siguiente direccion de pacman
+			if (event.key.keysym.sym == SDLK_LEFT) characters[numFantasmas]->siguienteDir(-TAM, 0);
+			else if (event.key.keysym.sym == SDLK_RIGHT) characters[numFantasmas]->siguienteDir(TAM, 0);
+			else if (event.key.keysym.sym == SDLK_UP) characters[numFantasmas]->siguienteDir(0, -TAM);
+			else if (event.key.keysym.sym == SDLK_DOWN) characters[numFantasmas]->siguienteDir(0, TAM);
+			else if (event.key.keysym.sym == SDLK_s) saveState = true;//si pulsas s guardas partida
+			else if (event.key.keysym.sym == SDLK_c) loadState = true;//si pulsas c cargas partida
+		}
 	}
 }
 
@@ -224,6 +232,53 @@ void Game::renderHud()
 	}
 }
 
+void Game::SaveState()
+{
+	SDL_Event evento;
+	code = 0;
+	while(saveState && !exit)
+	{
+		while (SDL_PollEvent(&evento) && saveState)
+		{
+			if (evento.type == SDL_QUIT) exit = true;
+			else if (evento.key.keysym.sym == SDLK_RETURN)
+			{
+				saveState = false;
+				guardarPartida();
+			}
+			else if (evento.key.keysym.sym >= SDLK_0 && evento.key.keysym.sym <= SDLK_9)
+				code = 10 * code + evento.key.keysym.sym - SDLK_0;
+		}
+	}
+}
+
+void Game::LoadState()
+{
+	int localCode = 0; 
+	SDL_Event evento;
+	while (loadState && !exit)
+	{
+		while (SDL_PollEvent(&evento) && loadState)
+		{
+			if (evento.type == SDL_QUIT) exit = true;
+			else if (evento.key.keysym.sym == SDLK_RETURN)
+			{
+				cout << code;
+				cout << "cipote que se come diego";
+				cout << localCode;
+				if (localCode == code)
+				{
+					menu = 3;
+					cargarPartida();
+				}
+				loadState = false;
+			}
+			else if (evento.key.keysym.sym >= SDLK_0 && evento.key.keysym.sym <= SDLK_9)
+				localCode = 10 * localCode + evento.key.keysym.sym - SDLK_0;
+		}
+	}
+}
+
 //suma o resta uno a la comida (1 o -1 como parametros)
 void Game::setComida(int i)
 {
@@ -246,7 +301,6 @@ void Game::setCell(int fils, int cols, MapCell tipoCasilla)
 void Game::leeArchivo(string filename)
 {
 	ifstream archivo;
-	char character;
 	numComida = 0;
 	archivo.open("./Levels/" + filename);
 	if (archivo.is_open()) 
@@ -267,8 +321,8 @@ void Game::leeArchivo(string filename)
 		characters[numFantasmas] = new PacMan(this, textures[1], TAM, TAM, 6, 2, 12, 4);//creamos a pacman
 		characters[numFantasmas]->loadFromFile(archivo);//lo cargamos de fichero
 
-		/*archivo >> score;
-		archivo >> nivel;*/
+		archivo >> nivel;
+		archivo >> score;
 		archivo.close();
 	}
 }
@@ -306,14 +360,13 @@ void Game::guardarPartida()
 	archivo.open("./Levels/NivelGuardado");
 	archivo << fils << " " << cols << endl;
 	gameMap->saveToFile(archivo);
+	archivo << numFantasmas << endl;
 
 	for (int i = 0; i < characters.size(); i++){
-		characters[numFantasmas]->saveToFile(archivo);//lo cargamos de fichero
+		characters[i]->saveToFile(archivo);//lo cargamos de fichero
 		archivo << endl;
 		}
-	/*archivo << score;
-	archivo << endl;
-	archivo << nivel;*/
+	archivo << nivel << " " << score;
 	archivo.close();
 }
 

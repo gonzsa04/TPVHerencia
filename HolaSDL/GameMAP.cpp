@@ -92,11 +92,13 @@ void GameMAP::loadFromFile(ifstream& file)
 //guarda informacion sobre el mapa en un fichero
 void GameMAP::saveToFile(ofstream& file) 
 {
-	for (int i = 0; i < fil; i++)
+	for (int i = 0; i < fil; i++) {
 		for (int j = 0; j < col; j++)
 		{
-			file << (int)getCell(i,j) << " "  ;
+			file << (int)getCell(i, j) << " ";
 		}
+		file << endl;
+	}
 }
 
 //destructora del tablero

@@ -1,2 +1,6 @@
-﻿  Personaje.cpp
-  HolaSDL.vcxproj -> D:\Users\Gonzalo\Desktop\UCM 1\C++\TPVHerencia\bin\HolaSDLDebug.exe
+﻿  Game.cpp
+c:\users\guillermo\desktop\tpvherencia-master\tpvherencia\holasdl\game.cpp(161): warning C4018: '<': no coinciden signed/unsigned
+c:\users\guillermo\desktop\tpvherencia-master\tpvherencia\holasdl\game.cpp(178): warning C4018: '<': no coinciden signed/unsigned
+c:\users\guillermo\desktop\tpvherencia-master\tpvherencia\holasdl\game.cpp(365): warning C4018: '<': no coinciden signed/unsigned
+c:\users\guillermo\desktop\tpvherencia-master\tpvherencia\holasdl\game.cpp(386): warning C4018: '<': no coinciden signed/unsigned
+  HolaSDL.vcxproj -> C:\Users\guillermo\Desktop\TPVHerencia-master\TPVherencia\bin\HolaSDLDebug.exe

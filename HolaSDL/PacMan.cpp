@@ -17,8 +17,7 @@ void PacMan::loadFromFile(ifstream& file)
 void PacMan::saveToFile(ofstream& file)
 {
 	Personaje::saveToFile(file);//obtiene la informacion de personaje
-	file << " " << dirXSig << " " << dirYSig;//obtiene la informacion de pacman
-	int aux;
+	file << " " << 0 << " " << 0;//obtiene la informacion de pacman
 	file << " " << vidas;
 }
 

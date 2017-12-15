@@ -83,7 +83,7 @@ void Personaje::loadFromFile(ifstream& file)
 void Personaje::saveToFile(ofstream& file) 
 {
 	file << destRect.y/game->getTam() << " " << destRect.x/game->getTam() << " " << posIniY/game->getTam()
-		<< " " << posIniX/game->getTam() << " " << dirY << " " << dirX;
+		<< " " << posIniX/game->getTam() << " " << dirY/game->getTam() << " " << dirX/game->getTam();
 }
 
 //devuelven posicion de la entidad

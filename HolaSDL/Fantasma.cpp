@@ -16,8 +16,8 @@ void Fantasma::loadFromFile(ifstream& file)
 //guarda informacion sobre el fantasma en un fichero
 void Fantasma::saveToFile(ofstream& file)
 {
+	file << smart << " ";
 	Personaje::saveToFile(file);//informacion de personaje
-	file << " " << smart;
 	if (smart)file << " " << edad;
 }
 
