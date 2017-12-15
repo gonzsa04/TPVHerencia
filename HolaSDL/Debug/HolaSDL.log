@@ -1,6 +1,6 @@
 ﻿  Game.cpp
-c:\users\guillermo\desktop\tpvherencia-master\tpvherencia\holasdl\game.cpp(161): warning C4018: '<': no coinciden signed/unsigned
-c:\users\guillermo\desktop\tpvherencia-master\tpvherencia\holasdl\game.cpp(178): warning C4018: '<': no coinciden signed/unsigned
-c:\users\guillermo\desktop\tpvherencia-master\tpvherencia\holasdl\game.cpp(365): warning C4018: '<': no coinciden signed/unsigned
-c:\users\guillermo\desktop\tpvherencia-master\tpvherencia\holasdl\game.cpp(386): warning C4018: '<': no coinciden signed/unsigned
-  HolaSDL.vcxproj -> C:\Users\guillermo\Desktop\TPVHerencia-master\TPVherencia\bin\HolaSDLDebug.exe
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\game.cpp(160): warning C4018: '<': no coinciden signed/unsigned
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\game.cpp(177): warning C4018: '<': no coinciden signed/unsigned
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\game.cpp(363): warning C4018: '<': no coinciden signed/unsigned
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\game.cpp(384): warning C4018: '<': no coinciden signed/unsigned
+  HolaSDL.vcxproj -> D:\Users\Gonzalo\Desktop\UCM 1\C++\TPVHerencia\bin\HolaSDLDebug.exe

@@ -61,7 +61,6 @@ void Game::Menu()
 			if (event.key.keysym.sym == SDLK_SPACE)
 			{
 				loadState = true;
-				code = 0;
 				LoadState();
 			}
 		}
@@ -254,7 +253,6 @@ void Game::SaveState()
 
 void Game::LoadState()
 {
-	int localCode = 0; 
 	SDL_Event evento;
 	while (loadState && !exit)
 	{
@@ -264,7 +262,6 @@ void Game::LoadState()
 			else if (evento.key.keysym.sym == SDLK_RETURN)
 			{
 				cout << code;
-				cout << "cipote que se come diego";
 				cout << localCode;
 				if (localCode == code)
 				{
