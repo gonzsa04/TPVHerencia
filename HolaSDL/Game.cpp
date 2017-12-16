@@ -42,13 +42,13 @@ void Game::Menu()
 	//mientras no se haya pulsado salir
 	while (!exit)
 	{
-		if (event.key.keysym.sym == SDLK_UP) menu = 1;//si estamos sobre la opcion jugar
-		else if (event.key.keysym.sym == SDLK_DOWN) menu = 2;//si estamos sobre la opcion salir
+		if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_LEFT) menu = 1;//si estamos sobre la opcion jugar
+		else if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_RIGHT) menu = 2;//si estamos sobre la opcion salir
 		if (menu == 1) 
 		{ 
 			//si estamos sobre la opcion jugar representamos en pantalla con una flecha
 			textures[5]->render(renderer); //si pulsamos espacio jugamos
-			if (event.key.keysym.sym == SDLK_SPACE) 
+			if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_LEFT)
 			{
 				leeArchivo("level0" + std::to_string(nivel) + ".pac");
 				menu = 3; 
@@ -58,7 +58,7 @@ void Game::Menu()
 		{
 			//si estamos sobre la opcion salir representamos en pantalla con una flecha
 			textures[6]->render(renderer);//si pulsamos espacio salimos
-			if (event.key.keysym.sym == SDLK_SPACE)
+			if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_RIGHT)
 			{
 				loadState = true;
 				LoadState();
@@ -131,7 +131,6 @@ void Game::auxiliares()
 		win = false;
 	}
 	if (saveState)SaveState();
-	else if (loadState)LoadState();
 
 	if (event.type == SDL_QUIT)exit = true;
 }
@@ -235,19 +234,17 @@ void Game::SaveState()
 {
 	SDL_Event evento;
 	code = 0;
-	while(saveState && !exit)
+	while (saveState && !exit)
 	{
-		while (SDL_PollEvent(&evento) && saveState)
+		SDL_WaitEvent(&evento);
+		if (evento.type == SDL_QUIT) exit = true;
+		else if (evento.key.keysym.sym == SDLK_RETURN)
 		{
-			if (evento.type == SDL_QUIT) exit = true;
-			else if (evento.key.keysym.sym == SDLK_RETURN)
-			{
-				saveState = false;
-				guardarPartida();
-			}
-			else if (evento.key.keysym.sym >= SDLK_0 && evento.key.keysym.sym <= SDLK_9)
-				code = 10 * code + evento.key.keysym.sym - SDLK_0;
+			saveState = false;
+			guardarPartida();
 		}
+		else if (evento.key.keysym.sym >= SDLK_0 && evento.key.keysym.sym <= SDLK_9)
+			code = 10 * code + evento.key.keysym.sym - SDLK_0;
 	}
 }
 
@@ -261,13 +258,8 @@ void Game::LoadState()
 			if (evento.type == SDL_QUIT) exit = true;
 			else if (evento.key.keysym.sym == SDLK_RETURN)
 			{
-				cout << code;
-				cout << localCode;
-				if (localCode == code)
-				{
-					menu = 3;
-					cargarPartida();
-				}
+				menu = 3;
+				cargarPartida();
 				loadState = false;
 			}
 			else if (evento.key.keysym.sym >= SDLK_0 && evento.key.keysym.sym <= SDLK_9)
@@ -354,7 +346,7 @@ void Game::addScore(int ascore)
 void Game::guardarPartida()
 {
 	ofstream archivo;
-	archivo.open("./Levels/NivelGuardado");
+	archivo.open("./Levels/NivelGuardado" + to_string(code));
 	archivo << fils << " " << cols << endl;
 	gameMap->saveToFile(archivo);
 	archivo << numFantasmas << endl;
@@ -370,7 +362,7 @@ void Game::guardarPartida()
 //carga una partida guardada en un archivo de texto
 void Game::cargarPartida() 
 {
-	leeArchivo("NivelGuardado");
+	leeArchivo("NivelGuardado" + to_string(localCode));
 }
 
 //finaliza el juego
