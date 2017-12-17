@@ -21,6 +21,7 @@ protected:
 	Texture* texture2 = nullptr;//puntero a su textura. La carga Game y luego se la pasa 
 	vector<Punto>posiblesDir = { { 0, 1 }, {0, -1}, {1, 0}, {-1, 0} };//vector de posibles direcciones, inicialmente todas
 	bool comible = false;//inicialmente el fantasma no es comible
+	bool smart = false;//indica si es listo o no
 public:
 	Fantasma():Personaje() {};//constructora que llama a la constructora por defecto de su padre
 	//constructora, llama a la constructora del padre y ademas hace lo que esta entre {}
@@ -41,5 +42,6 @@ public:
 	void posiblesDirecciones();//rellena un vector con todas las posibles direcciones que puede tomar el fantasma
 	void modifyComible(bool esComible);//cambia el fantasma a comible o no comible
 	bool getComible();//devuelve si el fantasma es comible
+	bool esListo();//devuelve si el fantasma es listo
 };
 

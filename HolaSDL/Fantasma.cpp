@@ -64,9 +64,9 @@ void Fantasma::eliminaDir(int x, int y)
 bool Fantasma::hayFantasma(int dX, int dY) 
 {
 	int i = 0;
-	while (i < 4 && (static_cast<Fantasma*>(game->getFantasmas(i))->destRect.x != destRect.x + dX || 
+	while (i < game->numFant() && (static_cast<Fantasma*>(game->getFantasmas(i))->destRect.x != destRect.x + dX || 
 		static_cast<Fantasma*>(game->getFantasmas(i))->destRect.y != destRect.y + dY)) i++;
-	return (i < 4);
+	return (i < game->numFant());
 }
 
 //rellena un vector con todas las posibles direcciones que puede tomar el fantasma
@@ -119,3 +119,6 @@ void Fantasma::modifyComible(bool esComible)
 
 //devuelve si el fantasma es comible o no
 bool Fantasma::getComible() { return comible; }
+
+//devuelve si el fantasma es listo o no
+bool Fantasma::esListo() { return smart; }

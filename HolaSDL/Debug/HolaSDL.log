@@ -1,3 +1,8 @@
-﻿  SmartGhost.cpp
-d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\smartghost.cpp(52): warning C4018: '<': no coinciden signed/unsigned
-  HolaSDL.vcxproj -> D:\Users\Gonzalo\Desktop\UCM 1\C++\TPVHerencia\bin\HolaSDLDebug.exe
+﻿  PacMan.cpp
+  Game.cpp
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(156): warning C4018: '<': no coinciden signed/unsigned
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(184): warning C4018: '<': no coinciden signed/unsigned
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(307): warning C4018: '<': no coinciden signed/unsigned
+d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(430): warning C4018: '<': no coinciden signed/unsigned
+  Generando código...
+  HolaSDL.vcxproj -> D:\Jorge\Desarrollo de Videojuegos-2\TPV\PacmanHerencia\TPVHerencia\bin\HolaSDLDebug.exe

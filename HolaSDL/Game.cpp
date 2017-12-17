@@ -30,12 +30,9 @@ Game::Game()
 	}
 }
 
-//devuelve el tipo de la casilla contigua en la direccion dada
-MapCell Game::nextCell(int posX, int posY, int dirX, int dirY)
-{
-	return(gameMap->getCell((posY + dirY) / TAM, (posX + dirX) / TAM));
-}
 
+
+//------------------------------------------------------------------JUEGO------------------------------------------------------------------
 //menu principal del juego
 void Game::Menu()
 {
@@ -158,7 +155,11 @@ void Game::update()
 {
 	for (int i = 0; i < characters.size(); i++)characters[i]->update();
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
+
+
+//------------------------------------------------------COLISIONES----------------------------------------------------------
 void Game::colisiones()
 {	
 	int i = 0;
@@ -170,10 +171,17 @@ void Game::colisiones()
 	//si hay colision 
 	if (i < numFantasmas)
 	{
-		//si no son comibles se pierde una vida y tanto pacman como los fantasmas vuelven a su posicion inicial
-		if (!static_cast<Fantasma*>(getFantasmas(i))->getComible())
+		//si no son comibles
+		if (!static_cast<Fantasma*>(characters[i])->getComible())
 		{
-			for (int i = 0; i < characters.size(); i++)characters[i]->morir();
+			//si es un fantasma listo y esta muerto le comemos y sumamos 200 puntos
+			if (static_cast<Fantasma*>(characters[i])->esListo() && static_cast<SmartGhost*>(characters[i])->estaMuerto()) 
+			{
+				characters[i]->morir();
+				addScore(200);
+			}
+			//si no es listo o si es listo pero esta vivo se pierde una vida y tanto pacman como los fantasmas vuelven a su posicion inicial
+			else for (int i = 0; i < characters.size(); i++)characters[i]->morir();
 		}
 		//si son comibles te comes a ese fantasma y sumas 100 puntos
 		else 
@@ -183,7 +191,11 @@ void Game::colisiones()
 		}
 	}
 }
+//---------------------------------------------------------------------------------------------------------------------------
 
+
+
+//--------------------------------------------------------PINTADO------------------------------------------------------------
 //manda a cada una de las entidades que se pinten
 void Game::render()
 {
@@ -229,7 +241,11 @@ void Game::renderHud()
 		else if (sScore[i] == '9') { textures[7]->renderFrame(renderer, destRect, 1, 5); }
 	}
 }
+//-------------------------------------------------------------------------------------------------------
 
+
+
+//-------------------------------------------GUARDAR/CARGAR----------------------------------------------
 void Game::SaveState()
 {
 	SDL_Event evento;
@@ -279,6 +295,72 @@ void Game::LoadState()
 	}
 }
 
+//guarda partida escribiendo la situacion de la misma en archivo de texto
+void Game::guardarPartida()
+{
+	ofstream archivo;
+	archivo.open("./Levels/NivelGuardado" + to_string(code));
+	archivo << fils << " " << cols << endl;
+	gameMap->saveToFile(archivo);
+	archivo << numFantasmas << endl;
+
+	for (int i = 0; i < characters.size(); i++) {
+		characters[i]->saveToFile(archivo);//lo cargamos de fichero
+		archivo << endl;
+	}
+	archivo << nivel << " " << score;
+	archivo.close();
+}
+
+//carga una partida guardada en un archivo de texto
+void Game::cargarPartida()
+{
+	leeArchivo("NivelGuardado" + to_string(localCode));
+}
+
+//lee de archivo un mapa y modifica el array de casillas para que sea igual
+void Game::leeArchivo(string filename)
+{
+	ifstream archivo;
+	numComida = 0;
+	archivo.open("./Levels/" + filename);
+	if (archivo.is_open())
+	{
+		archivo >> fils >> cols;
+
+		gameMap = new GameMAP(fils, cols, this);//creamos el tablero
+		gameMap->loadFromFile(archivo);//cargamos el tablero con lo que hay en el fichero
+
+		archivo >> numFantasmas;//leemos numero de fantasmas
+		int smart;
+		characters.resize(numFantasmas + 1);
+		for (int i = 0; i < numFantasmas; i++)
+		{
+			archivo >> smart;
+			if (smart == 0) characters[i] = new Fantasma(this, textures[0], textures[2], TAM, TAM, i, 0, 1, 2);
+			else characters[i] = new SmartGhost(this, textures[0], textures[2], TAM, TAM, 4, 0, 1, 2);
+			characters[i]->loadFromFile(archivo);//metemos a los fantasmas en el cjto. de personajes y los cargamos de fichero
+		}
+
+		characters[numFantasmas] = new PacMan(this, textures[1], TAM, TAM, 6, 2, 12, 4);//creamos a pacman
+		characters[numFantasmas]->loadFromFile(archivo);//lo cargamos de fichero
+
+		archivo >> nivel;
+		archivo >> score;
+		archivo.close();
+	}
+}
+//----------------------------------------------------------------------------------------------
+
+
+
+//-------------------------------------------AUXILIARES-----------------------------------------
+//devuelve el tipo de la casilla contigua en la direccion dada
+MapCell Game::nextCell(int posX, int posY, int dirX, int dirY)
+{
+	return(gameMap->getCell((posY + dirY) / TAM, (posX + dirX) / TAM));
+}
+
 //suma o resta uno a la comida (1 o -1 como parametros)
 void Game::setComida(int i)
 {
@@ -295,39 +377,6 @@ SDL_Renderer* Game::getRenderer() { return renderer; }
 void Game::setCell(int fils, int cols, MapCell tipoCasilla)
 {
 	gameMap->setCell(fils, cols, tipoCasilla);
-}
-
-//lee de archivo un mapa y modifica el array de casillas para que sea igual
-void Game::leeArchivo(string filename)
-{
-	ifstream archivo;
-	numComida = 0;
-	archivo.open("./Levels/" + filename);
-	if (archivo.is_open()) 
-	{
-		archivo >> fils >> cols;
-
-		gameMap = new GameMAP(fils, cols, this);//creamos el tablero
-		gameMap->loadFromFile(archivo);//cargamos el tablero con lo que hay en el fichero
-
-		archivo >> numFantasmas;//leemos numero de fantasmas
-		int smart;
-		characters.resize(numFantasmas + 1);
-		for (int i = 0; i < numFantasmas; i++) 
-		{
-			archivo >> smart;
-			if(smart == 0) characters[i] = new Fantasma(this, textures[0], textures[2], TAM, TAM, i, 0, 1, 2);
-			else characters[i] = new SmartGhost(this, textures[0], textures[2], TAM, TAM, 4, 0, 1, 2);
-			characters[i]->loadFromFile(archivo);//metemos a los fantasmas en el cjto. de personajes y los cargamos de fichero
-		}
-
-		characters[numFantasmas] = new PacMan(this, textures[1], TAM, TAM, 6, 2, 12, 4);//creamos a pacman
-		characters[numFantasmas]->loadFromFile(archivo);//lo cargamos de fichero
-
-		archivo >> nivel;
-		archivo >> score;
-		archivo.close();
-	}
 }
 
 int Game::getTabFils() { return fils; }
@@ -356,29 +405,21 @@ void Game::addScore(int ascore)
 	score += ascore;
 }
 
-//guarda partida escribiendo la situacion de la misma en archivo de texto
-void Game::guardarPartida()
+int Game::numFant() { return numFantasmas; }
+
+//spawnea un nuevo fantasma listo (llamado cuando dos de ellos se reproducen)
+void Game::spawnFantasma(int x, int y) 
 {
-	ofstream archivo;
-	archivo.open("./Levels/NivelGuardado" + to_string(code));
-	archivo << fils << " " << cols << endl;
-	gameMap->saveToFile(archivo);
-	archivo << numFantasmas << endl;
-
-	for (int i = 0; i < characters.size(); i++){
-		characters[i]->saveToFile(archivo);//lo cargamos de fichero
-		archivo << endl;
-		}
-	archivo << nivel << " " << score;
-	archivo.close();
+	SmartGhost* hijo = new SmartGhost(this, textures[0], textures[2], TAM, TAM, 4, 0, 1, 2);
+	characters.insert(characters.begin(), hijo);//creamos un nuevo fantasma listo en la lista de personajes
+	static_cast<Fantasma*>(characters[0])->setPos(y, x);//lo situamos en el lugar de sus padres
+	numFantasmas++;//el numero de fantasmas ahora sera 1 mas
 }
+//---------------------------------------------------------------------------------------------------------
 
-//carga una partida guardada en un archivo de texto
-void Game::cargarPartida() 
-{
-	leeArchivo("NivelGuardado" + to_string(localCode));
-}
 
+
+//-------------------------------------------DESTRUCTORA---------------------------------------------------
 //finaliza el juego
 Game::~Game()
 {

@@ -67,6 +67,8 @@ public:
 	MapCell nextCell(int posX, int posY, int dirX, int dirY);//devuelve el tipo de la casilla contigua en la direccion dada
 	void guardarPartida();
 	void cargarPartida();
+	int numFant();
+	void spawnFantasma(int x, int y);
 	~Game();//cierra la ventana etc. (acaba el juego)
 };
 

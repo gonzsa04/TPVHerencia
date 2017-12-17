@@ -16,8 +16,8 @@ void PacMan::loadFromFile(ifstream& file)
 //guarda informacion sobre pacman en un fichero
 void PacMan::saveToFile(ofstream& file)
 {
-	Personaje::saveToFile(file);//obtiene la informacion de personaje
-	file << " " << 0 << " " << 0;//obtiene la informacion de pacman
+	Personaje::saveToFile(file);//guarda la informacion de personaje
+	file << " " << 0 << " " << 0;//guarda la informacion de pacman
 	file << " " << vidas;
 }
 
