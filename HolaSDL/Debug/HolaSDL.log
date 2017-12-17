@@ -1,15 +1,6 @@
-﻿  main.cpp
-  Personaje.cpp
-  PacMan.cpp
-  GameMAP.cpp
-  Game.cpp
-d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(159): warning C4018: '<': no coinciden signed/unsigned
-d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(176): warning C4018: '<': no coinciden signed/unsigned
-d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(354): warning C4018: '<': no coinciden signed/unsigned
-d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(375): warning C4018: '<': no coinciden signed/unsigned
-  Generando código...
-d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\gamemap.cpp(23): warning C4715: 'GameMAP::getCell': no todas las rutas de acceso de control devuelven un valor
-  Compilando...
-  Fantasma.cpp
-  Generando código...
-  HolaSDL.vcxproj -> D:\Jorge\Desarrollo de Videojuegos-2\TPV\PacmanHerencia\TPVHerencia\bin\HolaSDLDebug.exe
+﻿  Game.cpp
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\game.cpp(159): warning C4018: '<': no coinciden signed/unsigned
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\game.cpp(176): warning C4018: '<': no coinciden signed/unsigned
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\game.cpp(364): warning C4018: '<': no coinciden signed/unsigned
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\game.cpp(385): warning C4018: '<': no coinciden signed/unsigned
+  HolaSDL.vcxproj -> D:\Users\Gonzalo\Desktop\UCM 1\C++\TPVHerencia\bin\HolaSDLDebug.exe

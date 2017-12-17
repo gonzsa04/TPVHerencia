@@ -31,7 +31,7 @@ private:
 	int numNiveles = 2;//numero de niveles del juego
 	int startTime, frameTime;
 	int Temp = 0;//temporizador
-	int code = 0, localCode = 0;
+	int code = -1, localCode = 0;
 	bool temporizador = false;//temporizador, indica si podemos comer fantasmas
 	GameMAP* gameMap;//tablero
 	int numFantasmas = 0;//numero de fantasmas en el juego

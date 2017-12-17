@@ -251,6 +251,7 @@ void Game::SaveState()
 void Game::LoadState()
 {
 	SDL_Event evento;
+	ifstream archivo;
 	while (loadState && !exit)
 	{
 		while (SDL_PollEvent(&evento) && loadState)
@@ -258,10 +259,19 @@ void Game::LoadState()
 			if (evento.type == SDL_QUIT) exit = true;
 			else if (evento.key.keysym.sym == SDLK_RETURN)
 			{
-				menu = 3;
-				cargarPartida();
+				archivo.open("./Levels/NivelGuardado" + to_string(localCode));
+				if (archivo.is_open()) {
+					menu = 3;
+					cargarPartida();
+				}
+				else 
+				{
+					leeArchivo("level0" + std::to_string(nivel) + ".pac");
+					menu = 3;
+				}
 				loadState = false;
 			}
+
 			else if (evento.key.keysym.sym >= SDLK_0 && evento.key.keysym.sym <= SDLK_9)
 				localCode = 10 * localCode + evento.key.keysym.sym - SDLK_0;
 		}
