@@ -4,6 +4,7 @@
 #include "GameMAP.h"
 #include "PacMan.h"
 #include "Fantasma.h"
+#include "SmartGhost.h"
 #include <iostream>
 using namespace std;
 
@@ -31,7 +32,7 @@ private:
 	int numNiveles = 2;//numero de niveles del juego
 	int startTime, frameTime;
 	int Temp = 0;//temporizador
-	int code = -1, localCode = 0;
+	int code = -1, localCode = -1;
 	bool temporizador = false;//temporizador, indica si podemos comer fantasmas
 	GameMAP* gameMap;//tablero
 	int numFantasmas = 0;//numero de fantasmas en el juego

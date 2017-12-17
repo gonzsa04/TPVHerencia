@@ -9,21 +9,18 @@ class Game;
 #include <vector>
 using namespace std;
 
-//coordenadas para las direcciones
-struct Punto 
-{
-	int x, y;
-};
-
 //clase Fantasma que rige el comportamiento de los enemigos
 //hereda su comportamiento de Personaje-> ES un personaje
 class Fantasma: public Personaje {
-private:
+protected:
+	//coordenadas para las direcciones
+	struct Punto
+	{
+		int x, y;
+	};
 	Texture* texture2 = nullptr;//puntero a su textura. La carga Game y luego se la pasa 
 	vector<Punto>posiblesDir = { { 0, 1 }, {0, -1}, {1, 0}, {-1, 0} };//vector de posibles direcciones, inicialmente todas
 	bool comible = false;//inicialmente el fantasma no es comible
-	bool smart = false;
-	int edad = 0;
 public:
 	Fantasma():Personaje() {};//constructora que llama a la constructora por defecto de su padre
 	//constructora, llama a la constructora del padre y ademas hace lo que esta entre {}

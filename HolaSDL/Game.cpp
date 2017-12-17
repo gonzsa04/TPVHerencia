@@ -233,7 +233,7 @@ void Game::renderHud()
 void Game::SaveState()
 {
 	SDL_Event evento;
-	code = 0;
+	code = -1;
 	while (saveState && !exit)
 	{
 		SDL_WaitEvent(&evento);
@@ -251,6 +251,7 @@ void Game::SaveState()
 void Game::LoadState()
 {
 	SDL_Event evento;
+	localCode = -1;
 	ifstream archivo;
 	while (loadState && !exit)
 	{
@@ -310,10 +311,13 @@ void Game::leeArchivo(string filename)
 		gameMap->loadFromFile(archivo);//cargamos el tablero con lo que hay en el fichero
 
 		archivo >> numFantasmas;//leemos numero de fantasmas
+		int smart;
 		characters.resize(numFantasmas + 1);
 		for (int i = 0; i < numFantasmas; i++) 
 		{
-			characters[i] = new Fantasma(this, textures[0], textures[2], TAM, TAM, i, 0, 1, 2);
+			archivo >> smart;
+			if(smart == 0) characters[i] = new Fantasma(this, textures[0], textures[2], TAM, TAM, i, 0, 1, 2);
+			else characters[i] = new SmartGhost(this, textures[0], textures[2], TAM, TAM, 4, 0, 1, 2);
 			characters[i]->loadFromFile(archivo);//metemos a los fantasmas en el cjto. de personajes y los cargamos de fichero
 		}
 
