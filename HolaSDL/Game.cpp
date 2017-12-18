@@ -18,15 +18,14 @@ Game::Game()
 	else
 	{
 		srand((int)time(nullptr));
-		for (int i = 0; i < 8; i++) { textures[i] = new Texture; }//array con todas las texturas del juego
+		for (int i = 0; i < numTextures; i++) { textures[i] = new Texture; }//array con todas las texturas del juego
 		textures[0]->load(renderer, "..//images/pacman-spritesheet.png", 8, 4);//texturas de tablero
 		textures[1]->load(renderer, "..//images/PacmanAnimation.png", 1, 4);//texturas de pacman
 		textures[2]->load(renderer, "..//images/FAsustadosAnimation.png", 1, 2);//texturas de los fantasmas comibles
 		textures[3]->load(renderer, "..//images/YouWin.png", 1, 1);//textura de ganar
 		textures[4]->load(renderer, "..//images/Game-Over.png", 1, 1);//textura de perder
-		textures[5]->load(renderer, "..//images/Menu1.png", 1, 1);//textura de menu modo jugar
-		textures[6]->load(renderer, "..//images/Menu2.png", 1, 1);//textura de menu modo salir
-		textures[7]->load(renderer, "..//images/score.png", 2, 6);//texturas de la puntuacion
+		textures[5]->load(renderer, "..//images/Menu.png", 1, 1);//textura de menu modo jugar
+		textures[6]->load(renderer, "..//images/score.png", 2, 6);//texturas de la puntuacion
 	}
 }
 
@@ -39,24 +38,17 @@ void Game::Menu()
 	//mientras no se haya pulsado salir
 	while (!exit)
 	{
-		if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_LEFT) menu = 1;//si estamos sobre la opcion jugar
-		else if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_RIGHT) menu = 2;//si estamos sobre la opcion salir
-		if (menu == 1) 
-		{ 
-			//si estamos sobre la opcion jugar representamos en pantalla con una flecha
-			textures[5]->render(renderer); //si pulsamos espacio jugamos
-			if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_LEFT)
-			{
-				leeArchivo("level0" + std::to_string(nivel) + ".pac");
-				menu = 3; 
-			}
-		}
-		else
+		textures[5]->render(renderer);//se pinta el menu
+		if (event.type == SDL_MOUSEBUTTONDOWN) 
 		{
-			//si estamos sobre la opcion salir representamos en pantalla con una flecha
-			textures[6]->render(renderer);//si pulsamos espacio salimos
-			if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_RIGHT)
-			{
+			int x, y;
+			SDL_GetMouseState(&x, &y);//si se ha pulsado jugar se carga el primer nivel
+			if (x >= 370 && x <= 435 && y >= 300 && y <= 315) {
+				leeArchivo("level0" + std::to_string(nivel) + ".pac");
+				menu = 3;
+			}
+			//si se ha pulsado cargar se carga el nivel seleccionado
+			else if(x >= 370 && x <= 435 && y >= 335 && y <= 350){
 				loadState = true;
 				LoadState();
 			}
@@ -145,7 +137,6 @@ void Game::handleEvents()
 			else if (event.key.keysym.sym == SDLK_UP) characters[numFantasmas]->siguienteDir(0, -TAM);
 			else if (event.key.keysym.sym == SDLK_DOWN) characters[numFantasmas]->siguienteDir(0, TAM);
 			else if (event.key.keysym.sym == SDLK_s) saveState = true;//si pulsas s guardas partida
-			else if (event.key.keysym.sym == SDLK_c) loadState = true;//si pulsas c cargas partida
 		}
 	}
 }
@@ -222,23 +213,23 @@ void Game::renderHud()
 	destRect.w = TAM * 4;
 	destRect.x -= TAM * 2;
 	destRect.y = TAM * 2;
-	textures[7]->renderFrame(renderer, destRect, 0, 0);
+	textures[6]->renderFrame(renderer, destRect, 0, 0);
 	string sScore = std::to_string(score);
 	destRect.x += 4 * TAM;
 	//pintamos puntuacion
 	for (int i = 0; i < (int)sScore.length(); i++)
 	{
 		destRect.x += 3*TAM/4;
-		if(sScore[i] == '0'){ textures[7]->renderFrame(renderer, destRect, 0, 1); }
-		else if (sScore[i] == '1') { textures[7]->renderFrame(renderer, destRect, 0, 2); }
-		else if (sScore[i] == '2') { textures[7]->renderFrame(renderer, destRect, 0, 3); }
-		else if (sScore[i] == '3') { textures[7]->renderFrame(renderer, destRect, 0, 4); }
-		else if (sScore[i] == '4') { textures[7]->renderFrame(renderer, destRect, 1, 0); }
-		else if (sScore[i] == '5') { textures[7]->renderFrame(renderer, destRect, 1, 1); }
-		else if (sScore[i] == '6') { textures[7]->renderFrame(renderer, destRect, 1, 2); }
-		else if (sScore[i] == '7') { textures[7]->renderFrame(renderer, destRect, 1, 3); }
-		else if (sScore[i] == '8') { textures[7]->renderFrame(renderer, destRect, 1, 4); }
-		else if (sScore[i] == '9') { textures[7]->renderFrame(renderer, destRect, 1, 5); }
+		if(sScore[i] == '0'){ textures[6]->renderFrame(renderer, destRect, 0, 1); }
+		else if (sScore[i] == '1') { textures[6]->renderFrame(renderer, destRect, 0, 2); }
+		else if (sScore[i] == '2') { textures[6]->renderFrame(renderer, destRect, 0, 3); }
+		else if (sScore[i] == '3') { textures[6]->renderFrame(renderer, destRect, 0, 4); }
+		else if (sScore[i] == '4') { textures[6]->renderFrame(renderer, destRect, 1, 0); }
+		else if (sScore[i] == '5') { textures[6]->renderFrame(renderer, destRect, 1, 1); }
+		else if (sScore[i] == '6') { textures[6]->renderFrame(renderer, destRect, 1, 2); }
+		else if (sScore[i] == '7') { textures[6]->renderFrame(renderer, destRect, 1, 3); }
+		else if (sScore[i] == '8') { textures[6]->renderFrame(renderer, destRect, 1, 4); }
+		else if (sScore[i] == '9') { textures[6]->renderFrame(renderer, destRect, 1, 5); }
 	}
 }
 //-------------------------------------------------------------------------------------------------------
