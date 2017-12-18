@@ -1,16 +1,6 @@
 ﻿  Game.cpp
-d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(146): warning C4018: '<': no coinciden signed/unsigned
-d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(174): warning C4018: '<': no coinciden signed/unsigned
-d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(297): warning C4018: '<': no coinciden signed/unsigned
-d:\jorge\desarrollo de videojuegos-2\tpv\pacmanherencia\tpvherencia\holasdl\game.cpp(420): warning C4018: '<': no coinciden signed/unsigned
-  Generando código...
-  Compilando...
-  main.cpp
-  Generando código...
-  Omitiendo... (no se detectaron cambios relevantes)
-  SmartGhost.cpp
-  Personaje.cpp
-  PacMan.cpp
-  GameMAP.cpp
-  Fantasma.cpp
-  HolaSDL.vcxproj -> D:\Jorge\Desarrollo de Videojuegos-2\TPV\PacmanHerencia\TPVHerencia\bin\HolaSDLDebug.exe
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\game.cpp(153): warning C4018: '<': no coinciden signed/unsigned
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\game.cpp(181): warning C4018: '<': no coinciden signed/unsigned
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\game.cpp(304): warning C4018: '<': no coinciden signed/unsigned
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\game.cpp(427): warning C4018: '<': no coinciden signed/unsigned
+  HolaSDL.vcxproj -> D:\Users\Gonzalo\Desktop\UCM 1\C++\TPVHerencia\bin\HolaSDLDebug.exe

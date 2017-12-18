@@ -37,8 +37,8 @@ private:
 	GameMAP* gameMap;//tablero
 	int numFantasmas = 0;//numero de fantasmas en el juego
 	vector<Personaje*>characters;//cjto de personajes del juego
-	int numTextures = 7;
-	Texture* textures[7];//punteros a textura que contiene todos los sprites del juego
+	int numTextures = 8;
+	Texture* textures[8];//punteros a textura que contiene todos los sprites del juego
 public:
 	Game();//carga la ventana y el tablero del juego
 	void Menu();//menu principal del juego

@@ -24,8 +24,9 @@ Game::Game()
 		textures[2]->load(renderer, "..//images/FAsustadosAnimation.png", 1, 2);//texturas de los fantasmas comibles
 		textures[3]->load(renderer, "..//images/YouWin.png", 1, 1);//textura de ganar
 		textures[4]->load(renderer, "..//images/Game-Over.png", 1, 1);//textura de perder
-		textures[5]->load(renderer, "..//images/Menu.png", 1, 1);//textura de menu modo jugar
+		textures[5]->load(renderer, "..//images/Menu1.png", 1, 1);//textura de menu modo jugar
 		textures[6]->load(renderer, "..//images/score.png", 2, 6);//texturas de la puntuacion
+		textures[7]->load(renderer, "..//images/Menu2.png", 1, 1);//textura de menu modo jugar
 	}
 }
 
@@ -36,19 +37,24 @@ Game::Game()
 void Game::Menu()
 {
 	//mientras no se haya pulsado salir
+	int x, y, m = 5;
 	while (!exit)
 	{
-		textures[5]->render(renderer);//se pinta el menu
-		if (event.type == SDL_MOUSEBUTTONDOWN) 
-		{
-			int x, y;
-			SDL_GetMouseState(&x, &y);//si se ha pulsado jugar se carga el primer nivel
-			if (x >= 370 && x <= 435 && y >= 300 && y <= 315) {
+		textures[m]->render(renderer);//se pinta el menu;
+		SDL_GetMouseState(&x, &y);//si se ha pulsado jugar se carga el primer nivel
+		if (x >= 370 && x <= 435 && y >= 300 && y <= 315) {
+			m = 5;
+			if (event.type == SDL_MOUSEBUTTONDOWN)
+			{
 				leeArchivo("level0" + std::to_string(nivel) + ".pac");
 				menu = 3;
 			}
-			//si se ha pulsado cargar se carga el nivel seleccionado
-			else if(x >= 370 && x <= 435 && y >= 335 && y <= 350){
+		}
+		//si se ha pulsado cargar se carga el nivel seleccionado
+		else if(x >= 370 && x <= 435 && y >= 335 && y <= 350){
+			m = 7;
+			if (event.type == SDL_MOUSEBUTTONDOWN)
+			{
 				loadState = true;
 				LoadState();
 			}
