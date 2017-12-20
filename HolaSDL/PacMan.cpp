@@ -9,7 +9,11 @@ void PacMan::loadFromFile(ifstream& file)
 	file >> dirXSig >> dirYSig;//obtiene la informacion de pacman
 	int aux;
 	file >> aux;
-	if (file.fail())file.clear();
+	if (file.fail())
+	{
+		file.clear();
+		vidas = 3;
+	}
 	else vidas = aux;
 }
 
