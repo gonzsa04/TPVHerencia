@@ -1,2 +1,13 @@
-﻿  Game.cpp
-  HolaSDL.vcxproj -> D:\Jorge\Desarrollo de Videojuegos-2\TPV\PacmanHerencia\TPVHerencia\bin\HolaSDLDebug.exe
+﻿  main.cpp
+  Texture.cpp
+  SmartGhost.cpp
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\smartghost.cpp(38): warning C4018: '<': no coinciden signed/unsigned
+  Personaje.cpp
+  PacMan.cpp
+  GameMAP.cpp
+  Game.cpp
+  Fantasma.cpp
+  Generando código...
+d:\users\gonzalo\desktop\ucm 1\c++\tpvherencia\holasdl\gamemap.cpp(23): warning C4715: 'GameMAP::getCell': no todas las rutas de acceso de control devuelven un valor
+  LINK : no se encontró D:\Users\Gonzalo\Desktop\UCM 1\C++\TPVHerencia\bin\HolaSDLDebug.exe o no lo generó el último vínculo incremental; ejecutando vínculo completo
+  HolaSDL.vcxproj -> D:\Users\Gonzalo\Desktop\UCM 1\C++\TPVHerencia\bin\HolaSDLDebug.exe
