@@ -57,7 +57,11 @@ void PacMan::update()
 void PacMan::morir()
 {
 	vidas--;//nos resta una vida y nos lleva a la posicion inicial
-	if (vidas <= 0) game->GameOver();//si nos quedamos sin vidas perdemos
+	if (vidas <= 0)
+	{
+		game->GameOver();//si nos quedamos sin vidas perdemos
+		vidas = 3;
+	}
 	else Personaje::morir();
 }
 

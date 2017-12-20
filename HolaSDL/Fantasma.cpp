@@ -60,21 +60,12 @@ void Fantasma::eliminaDir(int x, int y)
 	posiblesDir.erase(posiblesDir.begin() + i);
 }
 
-//indica si hay fantasma o no en la siguiente casilla donde va a avanzar el fantasma
-bool Fantasma::hayFantasma(int dX, int dY) 
-{
-	int i = 0;
-	while (i < game->numFant() && (static_cast<Fantasma*>(game->getFantasmas(i))->destRect.x != destRect.x + dX || 
-		static_cast<Fantasma*>(game->getFantasmas(i))->destRect.y != destRect.y + dY)) i++;
-	return (i < game->numFant());
-}
-
 //rellena un vector con todas las posibles direcciones que puede tomar el fantasma
 void Fantasma::posiblesDirecciones() 
 {
 	int i = 0;
 	posiblesDir.resize(1);
-	if (game->nextCell(destRect.x, destRect.y, game->getTam(), 0) != muro && !hayFantasma(game->getTam(), 0))
+	if (game->nextCell(destRect.x, destRect.y, game->getTam(), 0) != muro && game->hayFantasma(destRect.x + game->getTam(), destRect.y) == nullptr)
 	{
 		//si hacia la derecha no hay muro y no hay fantasmas, se añade derecha como posible direccion
 		posiblesDir[i].x = game->getTam();
@@ -82,7 +73,7 @@ void Fantasma::posiblesDirecciones()
 		i++;
 		posiblesDir.resize(i + 1);
 	}
-	if (game->nextCell(destRect.x, destRect.y, -game->getTam(), 0) != muro && !hayFantasma(-game->getTam(), 0))
+	if (game->nextCell(destRect.x, destRect.y, -game->getTam(), 0) != muro && game->hayFantasma(destRect.x - game->getTam(), destRect.y) == nullptr)
 	{
 		//igual con izquierda, arriba y abajo
 		posiblesDir[i].x = -game->getTam();
@@ -90,14 +81,14 @@ void Fantasma::posiblesDirecciones()
 		i++;
 		posiblesDir.resize(i + 1);
 	}
-	if (game->nextCell(destRect.x, destRect.y, 0, game->getTam()) != muro && !hayFantasma(0, game->getTam()))
+	if (game->nextCell(destRect.x, destRect.y, 0, game->getTam()) != muro && game->hayFantasma(destRect.x, destRect.y + game->getTam()) == nullptr)
 	{
 		posiblesDir[i].x = 0;
 		posiblesDir[i].y = game->getTam();
 		i++;
 		posiblesDir.resize(i + 1);
 	}
-	if (game->nextCell(destRect.x, destRect.y, 0, -game->getTam()) != muro && !hayFantasma(0, -game->getTam()))
+	if (game->nextCell(destRect.x, destRect.y, 0, -game->getTam()) != muro && game->hayFantasma(destRect.x, destRect.y - game->getTam()) == nullptr)
 	{
 		posiblesDir[i].x = 0;
 		posiblesDir[i].y = -game->getTam();

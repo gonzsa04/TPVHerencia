@@ -3,6 +3,7 @@
 #include "Game.h"
 #include <time.h>
 #include <iostream>
+#include <iterator>
 
 //inicializa la ventana del juego y todas las entidades
 Game::Game()
@@ -27,6 +28,8 @@ Game::Game()
 		textures[5]->load(renderer, "..//images/Menu1.png", 1, 1);//textura de menu modo jugar
 		textures[6]->load(renderer, "..//images/score.png", 2, 6);//texturas de la puntuacion
 		textures[7]->load(renderer, "..//images/Menu2.png", 1, 1);//textura de menu modo jugar
+
+		characters.push_back(new PacMan(this, textures[1], TAM, TAM, 6, 2, 12, 4));//creamos a pacman
 	}
 }
 
@@ -61,7 +64,6 @@ void Game::Menu()
 		}
 		SDL_RenderPresent(renderer);//representa (pinta todo)
 		SDL_PollEvent(&event);//miramos los eventos
-
 		run(menu);//bucle ppal
 
 		SDL_RenderClear(renderer);
@@ -119,15 +121,22 @@ void Game::auxiliares()
 	if (frameTime < 120)
 		SDL_Delay(180 - frameTime);
 
-	if (win && nivel < numNiveles)
+	if (win)
 	{
-		nivel++;
-		leeArchivo("level0" + std::to_string(nivel) + ".pac");
-		win = false;
+		for (int i = 0; i < numFantasmas; i++) characters.pop_front();
+		if (nivel < numNiveles) {
+			nivel++;
+			leeArchivo("level0" + std::to_string(nivel) + ".pac");
+			win = false;
+		}
 	}
 	if (saveState)SaveState();
 
-	if (event.type == SDL_QUIT)exit = true;
+	if (event.type == SDL_QUIT)
+	{
+		for (int i = 0; i < numFantasmas; i++) characters.pop_front();
+		exit = true;
+	}
 }
 
 //mira los eventos que ocurran en el juego
@@ -138,10 +147,10 @@ void Game::handleEvents()
 		if (event.type == SDL_QUIT)exit = true;
 		else if (event.type == SDL_KEYDOWN)
 		{//dependiendo de la tecla pulsada establecemos la siguiente direccion de pacman
-			if (event.key.keysym.sym == SDLK_LEFT) characters[numFantasmas]->siguienteDir(-TAM, 0);
-			else if (event.key.keysym.sym == SDLK_RIGHT) characters[numFantasmas]->siguienteDir(TAM, 0);
-			else if (event.key.keysym.sym == SDLK_UP) characters[numFantasmas]->siguienteDir(0, -TAM);
-			else if (event.key.keysym.sym == SDLK_DOWN) characters[numFantasmas]->siguienteDir(0, TAM);
+			if (event.key.keysym.sym == SDLK_LEFT) (*characters.rbegin())->siguienteDir(-TAM, 0);
+			else if (event.key.keysym.sym == SDLK_RIGHT) (*characters.rbegin())->siguienteDir(TAM, 0);
+			else if (event.key.keysym.sym == SDLK_UP) (*characters.rbegin())->siguienteDir(0, -TAM);
+			else if (event.key.keysym.sym == SDLK_DOWN) (*characters.rbegin())->siguienteDir(0, TAM);
 			else if (event.key.keysym.sym == SDLK_s) saveState = true;//si pulsas s guardas partida
 		}
 	}
@@ -150,7 +159,8 @@ void Game::handleEvents()
 //manda a cada una de las entidades del juego que actualicen su posicion
 void Game::update()
 {
-	for (int i = 0; i < characters.size(); i++)characters[i]->update();
+	for (list<Personaje*>::iterator it = characters.begin(); it != characters.end(); it++)
+		(*it)->update();
 }
 //--------------------------------------------------------------------------------------------------------------------------
 
@@ -159,31 +169,38 @@ void Game::update()
 //------------------------------------------------------COLISIONES----------------------------------------------------------
 void Game::colisiones()
 {	
-	int i = 0;
+	list<Personaje*>::reverse_iterator it = characters.rbegin();
+	it++;
 	//colisiona con el si sus posiciones son iguales o si su siguiente posicion es igual que la del fantasma y la siguiente posicion del fantasma es la misma que la suya
-	while (i < numFantasmas && (characters[numFantasmas]->getPosX() != characters[i]->getPosX() || characters[numFantasmas]->getPosY() != characters[i]->getPosY()) &&
-		(characters[numFantasmas]->getPosX() + characters[numFantasmas]->getDirX() != characters[i]->getPosX() || characters[numFantasmas]->getPosY() +
-			characters[numFantasmas]->getDirY() != characters[i]->getPosY()))
-		i++;
+	while (it != characters.rend() && ((*characters.rbegin())->getPosX() != (*it)->getPosX() || (*characters.rbegin())->getPosY() != (*it)->getPosY()) &&
+		((*characters.rbegin())->getPosX() + (*characters.rbegin())->getDirX() != (*it)->getPosX() || (*characters.rbegin())->getPosY() +
+		(*characters.rbegin())->getDirY() != (*it)->getPosY()))
+		it++;
 	//si hay colision 
-	if (i < numFantasmas)
+	if (it != characters.rend())
 	{
 		//si no son comibles
-		if (!static_cast<Fantasma*>(characters[i])->getComible())
+		if (!static_cast<Fantasma*>(*it)->getComible())
 		{
 			//si es un fantasma listo y esta muerto le comemos y sumamos 200 puntos
-			if (static_cast<Fantasma*>(characters[i])->esListo() && static_cast<SmartGhost*>(characters[i])->estaMuerto()) 
+			if (static_cast<Fantasma*>(*it)->esListo() && static_cast<SmartGhost*>(*it)->estaMuerto())
 			{
-				characters[i]->morir();
+				(*it)->morir();
 				addScore(200);
 			}
 			//si no es listo o si es listo pero esta vivo se pierde una vida y tanto pacman como los fantasmas vuelven a su posicion inicial
-			else for (int i = 0; i < characters.size(); i++)characters[i]->morir();
+			else {
+				list<Personaje*>::iterator it2 = characters.begin();
+				while (it2 != characters.end()) {
+					(*it2)->morir();
+					it2++;
+				}
+			}
 		}
 		//si son comibles te comes a ese fantasma y sumas 100 puntos
 		else 
 		{
-			characters[i]->morir();
+			(*it)->morir();
 			addScore(100);
 		}
 	}
@@ -196,10 +213,11 @@ void Game::colisiones()
 //manda a cada una de las entidades que se pinten
 void Game::render()
 {
+	list<Personaje*>::reverse_iterator it = characters.rbegin();
 	SDL_RenderClear(renderer);//borra
 	gameMap->render();//le mandamos al tablero que se pinte a un tamaño
-	characters[numFantasmas]->animate();//pinta entidades
-	for (int i = 0; i < numFantasmas; i++) characters[i]->render();//pintamos los fantasmas
+	(*characters.rbegin())->animate();//animamos pacman
+	for(it++; it != characters.rend(); it++)(*it)->render();//pintamos los fantasmas
 	renderHud();//pinta el HUD
 	SDL_RenderPresent(renderer);//representa (pinta todo)
 }
@@ -212,7 +230,7 @@ void Game::renderHud()
 	destRect.x = cols*TAM;
 	destRect.y = 0;
 	//pintamos las vidas
-	for (int i = 0; i < static_cast<PacMan*>(characters[numFantasmas])->getVidas(); i++) {
+	for (int i = 0; i < static_cast<PacMan*>(*characters.rbegin())->getVidas(); i++) {
 		destRect.x += TAM;
 		textures[0]->renderFrame(renderer, destRect, 6, 2);
 	}
@@ -301,9 +319,11 @@ void Game::guardarPartida()
 	gameMap->saveToFile(archivo);
 	archivo << numFantasmas << endl;
 
-	for (int i = 0; i < characters.size(); i++) {
-		characters[i]->saveToFile(archivo);//lo cargamos de fichero
+	list<Personaje*>::iterator it = characters.begin();
+	while (it != characters.end()) {
+		(*it)->saveToFile(archivo);//lo cargamos de fichero
 		archivo << endl;
+		it++;
 	}
 	archivo << nivel << " " << score;
 	archivo.close();
@@ -330,17 +350,18 @@ void Game::leeArchivo(string filename)
 
 		archivo >> numFantasmas;//leemos numero de fantasmas
 		int smart;
-		characters.resize(numFantasmas + 1);
+		Personaje* ghost;
 		for (int i = 0; i < numFantasmas; i++)
 		{
 			archivo >> smart;
-			if (smart == 0) characters[i] = new Fantasma(this, textures[0], textures[2], TAM, TAM, i, 0, 1, 2);
-			else characters[i] = new SmartGhost(this, textures[0], textures[2], TAM, TAM, 4, 0, 1, 2);
-			characters[i]->loadFromFile(archivo);//metemos a los fantasmas en el cjto. de personajes y los cargamos de fichero
+			if (smart == 0) ghost = new Fantasma(this, textures[0], textures[2], TAM, TAM, i, 0, 1, 2);
+			else ghost = new SmartGhost(this, textures[0], textures[2], TAM, TAM, 4, 0, 1, 2);
+			//metemos a los fantasmas en el cjto. de personajes y los cargamos de fichero
+			ghost->loadFromFile(archivo);
+			characters.push_front(ghost);
 		}
-
-		characters[numFantasmas] = new PacMan(this, textures[1], TAM, TAM, 6, 2, 12, 4);//creamos a pacman
-		characters[numFantasmas]->loadFromFile(archivo);//lo cargamos de fichero
+		
+		(*characters.rbegin())->loadFromFile(archivo);//lo cargamos de fichero
 
 		archivo >> nivel;
 		archivo >> score;
@@ -380,21 +401,32 @@ int Game::getTabFils() { return fils; }
 
 int Game::getTabCols() { return cols; }
 
-Personaje* Game::getFantasmas(int i) { return characters[i]; }//devuelve el fantasma i
+Personaje* Game::hayFantasma(int x, int y) { 
+	list<Personaje*>::reverse_iterator it = characters.rbegin();
+	it++;
+	while (it != characters.rend() && ((*it)->getPosX() != x || (*it)->getPosY() != y)) it++;
+	if (it != characters.rend())return *it;
+	else return nullptr;
+}//devuelve el fantasma i
 
 //establece todos los fantasmas a comibles o no comibles
 void Game::fantasmasComibles(bool sonComibles)
 {
-	for (int i = 0; i < numFantasmas; i++)static_cast<Fantasma*>(characters[i])->modifyComible(sonComibles);
+	list<Personaje*>::reverse_iterator it = characters.rbegin();
+	for(it++;it != characters.rend(); it++) static_cast<Fantasma*>(*it)->modifyComible(sonComibles);
 	if (sonComibles) { temporizador = true; Temp = 0; }//si son comibles inicia el temporizador
 	else temporizador = false;//si dejan de serlo finaliza el temporizador
 }
 
-Personaje* Game::getPacman() { return characters[numFantasmas]; }
+Personaje* Game::getPacman() { return (*characters.rbegin()); }
 
 int Game::getTam() { return TAM; }
 
-void Game::GameOver(){ gameOver = true; }
+void Game::GameOver()
+{ 
+	for (int i = 0; i < numFantasmas; i++) characters.pop_front();
+	gameOver = true;
+}
 
 //añade puntos, llamado al comer comida vitaminas o fantasmas
 void Game::addScore(int ascore)
@@ -408,8 +440,8 @@ int Game::numFant() { return numFantasmas; }
 void Game::spawnFantasma(int x, int y) 
 {
 	SmartGhost* hijo = new SmartGhost(this, textures[0], textures[2], TAM, TAM, 4, 0, 1, 2);
-	characters.insert(characters.begin(), hijo);//creamos un nuevo fantasma listo en la lista de personajes
-	static_cast<Fantasma*>(characters[0])->setPos(y, x);//lo situamos en el lugar de sus padres
+	characters.push_front(hijo);//creamos un nuevo fantasma listo en la lista de personajes
+	static_cast<Fantasma*>(*characters.begin())->setPos(y, x);//lo situamos en el lugar de sus padres
 	numFantasmas++;//el numero de fantasmas ahora sera 1 mas
 }
 //---------------------------------------------------------------------------------------------------------
@@ -424,7 +456,11 @@ Game::~Game()
 	if (textures != nullptr) {
 		for (int i = 0; i < numTextures; i++)delete[] textures[i];
 	}
-	for (int i = 0; i < characters.size(); i++)delete[] characters[i];
+	list<Personaje*>::iterator it = characters.begin();
+	while (it != characters.end()) {
+		delete (*it);
+		it++;
+	}
 
 	SDL_DestroyRenderer(renderer);//destruimos el renderer
 	SDL_DestroyWindow(window);//destruimos la ventana

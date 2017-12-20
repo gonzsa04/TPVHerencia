@@ -6,6 +6,7 @@
 #include "Fantasma.h"
 #include "SmartGhost.h"
 #include <iostream>
+#include <list>
 using namespace std;
 
 
@@ -36,7 +37,7 @@ private:
 	bool temporizador = false;//temporizador, indica si podemos comer fantasmas
 	GameMAP* gameMap;//tablero
 	int numFantasmas = 0;//numero de fantasmas en el juego
-	vector<Personaje*>characters;//cjto de personajes del juego
+	list<Personaje*>characters;//cjto de personajes del juego
 	int numTextures = 8;
 	Texture* textures[8];//punteros a textura que contiene todos los sprites del juego
 public:
@@ -57,7 +58,7 @@ public:
 	int getTabFils();//devuelve filas y columnas del tablero
 	int getTabCols();
 	void colisiones();
-	Personaje* getFantasmas(int i);//devuelve un fantasma
+	Personaje* hayFantasma(int x, int i);//devuelve un fantasma
 	void fantasmasComibles(bool sonComibles);//establece todos los fantasmas a comibles o no comibles
 	Personaje* getPacman();//devuelve a pacman
 	void renderHud();//pinta el numero de vidas

@@ -58,16 +58,16 @@ void SmartGhost::reproduccion()
 {
 	//si el fantasma es adulto y no esta muerto
 	if (adulto && !muerto) {
-		int i = 0;
-		//mira si ha chocado con algun fantasma
-		while (i < game->numFant() && (static_cast<SmartGhost*>(game->getFantasmas(i))->destRect.x != destRect.x + dirX ||
-			static_cast<SmartGhost*>(game->getFantasmas(i))->destRect.y != destRect.y + dirY)) i++;
-		//si ha chocado con algun fantasma y este es listo, adulto, no esta muerto y no se ha reproducido aun
-		if (i < game->numFant() && static_cast<SmartGhost*>(game->getFantasmas(i))->esListo() && 
-			static_cast<SmartGhost*>(game->getFantasmas(i))->esAdulto() && !static_cast<SmartGhost*>(game->getFantasmas(i))->estaMuerto() && !haReproducido)
+		Personaje* chocado = game->hayFantasma(destRect.x + dirX, destRect.y + dirY);
+		if (chocado != nullptr) 
 		{
-			haReproducido = true;//marcamos como que ya se ha reproducido
-			game->spawnFantasma(destRect.x, destRect.y);//spawneamos un nuevo fantasma listo en la posicion de uno de los padres
+			//si ha chocado con algun fantasma y este es listo, adulto, no esta muerto y no se ha reproducido aun
+			if (static_cast<SmartGhost*>(chocado)->esListo() && static_cast<SmartGhost*>(chocado)->esAdulto()
+				&& !static_cast<SmartGhost*>(chocado)->estaMuerto() && !haReproducido)
+			{
+				haReproducido = true;//marcamos como que ya se ha reproducido
+				game->spawnFantasma(destRect.x, destRect.y);//spawneamos un nuevo fantasma listo en la posicion de uno de los padres
+			}
 		}
 	}
 }

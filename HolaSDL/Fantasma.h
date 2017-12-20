@@ -38,7 +38,6 @@ public:
 	virtual void update();//metodo que actualiza la posicion del fantasma
 	virtual void morir();//metodo llamado al morir, devuelve al fantasma a posIni
 	void eliminaDir(int x, int y);//elimina la direccion contraria a la que lleva el fantasma
-	bool hayFantasma(int dX, int dY);//indica si hay fantasma o no en la siguiente casilla donde va a avanzar el fantasma
 	void posiblesDirecciones();//rellena un vector con todas las posibles direcciones que puede tomar el fantasma
 	void modifyComible(bool esComible);//cambia el fantasma a comible o no comible
 	bool getComible();//devuelve si el fantasma es comible
