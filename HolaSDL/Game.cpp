@@ -407,7 +407,7 @@ Personaje* Game::hayFantasma(int x, int y) {
 	while (it != characters.rend() && ((*it)->getPosX() != x || (*it)->getPosY() != y)) it++;
 	if (it != characters.rend())return *it;
 	else return nullptr;
-}//devuelve el fantasma i
+}//devuelve el fantasma si hay alguno en la posicion x, y
 
 //establece todos los fantasmas a comibles o no comibles
 void Game::fantasmasComibles(bool sonComibles)
