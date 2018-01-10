@@ -78,11 +78,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fantasma.h" />
+    <ClInclude Include="FileFormatError.h" />
+    <ClInclude Include="FileNotFoundError.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameMAP.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="PacMan.h" />
+    <ClInclude Include="PacManError.h" />
     <ClInclude Include="Personaje.h" />
+    <ClInclude Include="SDLError.h" />
     <ClInclude Include="SmartGhost.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>

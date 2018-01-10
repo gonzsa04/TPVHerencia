@@ -4,6 +4,9 @@
 #include <time.h>
 #include <iostream>
 #include <iterator>
+#include "SDLError.h"
+#include "FileNotFoundError.h"
+#include "FileFormatError.h"
 
 //inicializa la ventana del juego y todas las entidades
 Game::Game()
@@ -14,7 +17,7 @@ Game::Game()
 	//le damos valor al renderer a partir de la ventana
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	//avisamos si hay error
-	if (window == nullptr || renderer == nullptr)cout << "Error initializing SDL\n";
+	if (window == nullptr || renderer == nullptr) throw SDLError(*SDL_GetError());
 	//si no hay error
 	else
 	{
