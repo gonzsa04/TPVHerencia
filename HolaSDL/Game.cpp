@@ -32,7 +32,7 @@ Game::Game()
 		textures[6]->load(renderer, "..//images/score.png", 2, 6);//texturas de la puntuacion
 		textures[7]->load(renderer, "..//images/Menu2.png", 1, 1);//textura de menu modo jugar
 		int i = 0;//detectamos si hay algún error en la carga de imágenes
-		while (i < numTextures && textures[i] == nullptr)i++;
+		while (i < numTextures && textures[i] != nullptr)i++;
 		if (i < numTextures)throw SDLError(*IMG_GetError());
 
 		characters.push_back(new PacMan(this, textures[1], TAM, TAM, 6, 2, 12, 4));//creamos a pacman
